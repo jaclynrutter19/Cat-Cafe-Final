@@ -115,6 +115,51 @@ def edit_cat(cat_id):
 
             return redirect("/cats")
 
+# FOSTER PARENTS
+@app.route("/foster_parents", methods=["POST", "GET"])
+def foster_parents():
+    if request.method == "GET":
+        # Select all data from cats table
+        query = "SELECT * FROM Foster_Parents" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("foster_parents.j2", foster_parents=data)
+
+    if request.method == "POST":
+        
+        if request.form.get("Add_Parent"):
+            # Grab form input
+            fname = request.form["fname"]
+            lname = request.form["lname"]
+            email = request.form["email"]
+            phone = request.form["phone"]
+            
+            # INSERT values
+            query = "INSERT INTO Foster_Parents (first_name, last_name, email, phone) VALUES (%s, %s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (fname, lname, email, phone))
+            mysql.connection.commit()
+
+        # redirect to cat page
+        return redirect("/foster_parents")
+
+# route to DELETE foster_parent
+@app.route("/delete_foster_parent/<int:foster_parent_id>")
+def delete_foster_parent(foster_parent_id):
+    # query to delete the cat with our passed cat id
+    query = "DELETE FROM Foster_Parents WHERE foster_parent_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (foster_parent_id,))
+    mysql.connection.commit()
+
+     # redirect to foster_parents page
+    return redirect("/foster_parents")
+
+# route to EDIT foster_parent
+# route to EDIT cat
+
 
 # route for foster cat relationships page
 @app.route("/foster_cat", methods=["POST", "GET"])
