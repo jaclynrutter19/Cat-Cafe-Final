@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Cat Cafe</title>
+</head>
+<body>
+    <header>
+        <p class="company"><a href="/">Cat Cafe</a></p>
+        <nav>
+            <a href="cats">Cats</a>
+            <a href="cafe-products">Cafe Products</a>
+            <a href="employees">Employees</a>
+            <a href="customers">Customers</a>
+            <a href="foster-parents">Foster Parents</a>
+            <a href="adoptions">Adoptions</a>
+            <a href="cafe-transactions">Cafe Transactions</a>
+            <a href="product-orders">Product Orders</a>
+            <a href="foster-cat-relationships">Foster/Cat Relationships</a>
+        </nav>
+    </header>
+    <main>
+        <div class="content-stripe hero-stripe">
+            <h1>Manage Cats</h1>
+        </div>
+        <div class="content-stripe table-stripe">
+            <table>
+            <thead>
+                <tr>
+                  <!-- Iterate through each key in the first entry to get the
+                    column name -->
+                    {% for key in cats[0].keys() %}
+
+                    <!-- Create a <th> tag with the key inside of it, this will be
+                    our header row -->
+                    <th>{{ key }}</th>
+
+                    <!-- End of this for loop -->
+                    {% endfor %}
+                </tr>
+                <tbody>
+        
+                <!-- Now, iterate through every cat in cats -->
+                {% for cat in cats %}
+                <tr>
+                    <!-- Then iterate through every key in the current person dictionary -->
+                    {% for key in cat.keys() %}
+
+                    <!-- Create a <td> element with the value of that key in it -->
+                    <td>{{cat[key]}}</td>
+                    {% endfor %}
+
+                    <!-- Create our edit/delete buttons -->
+                    <td><a href="edit_cat/{{cat.cat_id}}" class ="btn btn-default">Edit</a></td>
+                    <td><a href="delete_cat/{{cat.cat_id}}" class ="btn">Delete</a></td>
+                </tr>
+                {% endfor %}
+                </table>
+        
+        </div>
+        <div class="content-stripe add-stripe">
+            <h2>Add Cat</h2>
+            <div class="form-region">
+                <form id = "insertCat" action = "/cats" method = "post">
+                    <div class="group-one">
+                    <label for="name">Name:</label><br>
+                    <input type="text" class = "form-control" id="name" name="name" pattern = "[A-Za-z]{1,}"
+                    placeholder = "" required><br>
+
+                    <label for="dob">DOB:</label><br>
+                    <input type="date" id="dob" name="dob">
+
+                    <label for="weight">Weight:</label><br>
+                    <input type="int" id="weight" name="weight">
+
+                    <label for="color">Color:</label><br>
+                    <input type="text" id="color" name="color">
+                    </div>
+                    <div class="group-two">
+
+                    <label for="sex">Sex:</label><br>
+                    <select class = "form-control" id = "sex" name="sex" placeholder = "">
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                    </select>
+
+                    <label for="adoptable">Adoptable:</label><br>
+                    <select class = "form-control" id = "adoptable" name="adoptable" placeholder = "" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+
+                    <label for="vet">Last Vet Check:</label><br>
+                    <input type="date" id="vet" name="vet">
+                    </div>
+                    <div class="group-three">
+                        <input class="btn btn-primary" type="submit" value="Submit" name="Add_Cat">
+                        <input class="btn" type="button" value="Cancel">
+                        </div>
+                </form>
+            </div>
+        </div>
+        
+</body>
+</html>
