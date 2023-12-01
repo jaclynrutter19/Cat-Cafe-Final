@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Cat Cafe</title>
+</head>
+<body>
+    <header>
+        <p class="company"><a href="/">Cat Cafe</a></p>
+        <nav>
+            <a href="cats">Cats</a>
+            <a href="cafe-products">Cafe Products</a>
+            <a href="employees">Employees</a>
+            <a href="customers">Customers</a>
+            <a href="foster-parents">Foster Parents</a>
+            <a href="adoptions">Adoptions</a>
+            <a href="cafe-transactions">Cafe Transactions</a>
+            <a href="product-orders">Product Orders</a>
+            <a href="foster-cat-relationships">Foster/Cat Relationships</a>
+        </nav>
+    </header>
+    <main>
+        <div class="content-stripe hero-stripe">
+            <h1>Manage Adoptions</h1>
+        </div>
+        <div class="content-stripe table-stripe">
+            <table>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th>Adoption ID</th>
+                  <th>Customer ID</th>
+                  <th>Cat ID</th>
+                  <th>Foster Parent ID</th>
+                  <th>Employee ID</th>
+                  <th>Date</th>
+                </tr>
+                <tr>
+                  <td>Edit</td>
+                  <td>Delete</td>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>2</td>
+                  <td>1</td>
+                  <td>2023-10-15</td>
+                </tr>
+                <tr>
+                  <td>Edit</td>
+                  <td>Delete</td>
+                  <td>2</td>
+                  <td>1</td>
+                  <td>4</td>
+                  <td>1</td>
+                  <td>2</td>
+                  <td>2023-10-20</td>
+                </tr>
+                <tr>
+                  <td>Edit</td>
+                  <td>Delete</td>
+                  <td>3</td>
+                  <td>3</td>
+                  <td>2</td>
+                  <td>3</td>
+                  <td>3</td>
+                  <td>2023-09-22</td>
+                  </tr>
+              </table>
+        </div>
+        <div class="content-stripe add-stripe">
+            <h2>Add Adoption</h2>
+            <div class="form-region">
+                <form>
+                    <div class="group-one">
+                    <label for="customer-id">Customer ID:</label><br>
+                    <input type="text" id="customer-id" name="customer-id">
+                    <label for="cat-id">Cat ID:</label><br>
+                    <input type="text" id="cat-id" name="cat-id">
+                    <label for="f-parent-id">Foster Parent ID:</label><br>
+                    <input type="text" id="f-parent-id" name="f-parent-id">
+                    <label for="employee-id">Employee ID:</label><br>
+                    <input type="text" id="employee-id" name="employee-id">
+                    <label for="adoption-date">Date:</label><br>
+                    <input type="text" id="adoption-date" name="adoption-date"><br>
+                    </div>
+                    <div class="group-three">
+                        <input class="btn" type="submit" value="Save">
+                        <input class="btn" type="button" value="Cancel">
+                        </div>
+                </form>
+            </div>
+        </div>
+        <div class="content-stripe update-stripe">
+            <h2>Update Adoption</h2>
+            <div class="form-region">
+                <form>
+                    <div class="group-one">
+                        <label for="adoption-ids">Adoption ID:</label>
+                        <select name="adoption-ids" id="adoption-ids">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                        <label for="customer-id">Customer ID:</label><br>
+                        <input type="text" id="customer-id" name="customer-id">
+                        <label for="cat-id">Cat ID:</label><br>
+                        <input type="text" id="cat-id" name="cat-id">
+                        <label for="f-parent-id">Foster Parent ID:</label><br>
+                        <input type="text" id="f-parent-id" name="f-parent-id">
+                        <label for="employee-id">Employee ID:</label><br>
+                        <input type="text" id="employee-id" name="employee-id">
+                        <label for="date">Date:</label><br>
+                        <input type="text" id="date" name="date"><br>
+                        </div>
+                    <div class="group-three">
+                    <input class="btn" type="submit" value="Save">
+                    <input class="btn" type="button" value="Cancel">
+                    </div>
+                </form>
+              </div>
+        </div>
+        <div class="content-stripe delete-stripe">
+            <h2>Delete Adoption</h2>
+            <fieldset>Are you sure you want to delete {{example}}?</fieldset>
+            <div class="group-three">
+                <input class="btn" type="submit" value="Delete">
+                <input class="btn" type="button" value="Cancel">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&#169; 2023 Olivia Russell & Jaclyn Rutter</p>
+    </footer>
+</body>
+</html>
