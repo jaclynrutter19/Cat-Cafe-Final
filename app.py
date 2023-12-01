@@ -298,6 +298,156 @@ def edit_foster_cat_relationship(id):
             # redirect back to foster cat relationships page after we execute the update query
             return redirect("/foster_cat")
 
+# Route to display employees page
+@app.route("/employees", methods=["POST", "GET"])
+def employees():
+    if request.method == "GET":
+        # Select all data from employees table
+        query = "SELECT * FROM Employees" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("employees.j2", employees=data)
+    
+    if request.method == "POST":
+        
+        if request.form.get("Add_Employee"):
+            # Grab form input
+            first_name = request.form["fname"]
+            last_name = request.form["lname"]
+            email = request.form["email"]
+            phone = request.form["phone"]
+            hourly_salary = request.form["salary"]
+            
+            # INSERT values
+            query = "INSERT INTO Employees (first_name, last_name, email, phone, hourly_salary) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (first_name, last_name, email, phone, hourly_salary))
+            mysql.connection.commit()
+
+        # redirect to employee page
+        return redirect("/employees")
+
+# route to DELETE employee
+@app.route("/delete_employee/<int:employee_id>")
+def delete_employee(employee_id):
+    # query to delete the employee with our passed employee id
+    query = "DELETE FROM Employees WHERE employee_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (employee_id,))
+    mysql.connection.commit()
+
+    # redirect to employees page
+    return redirect("/employees")
+
+
+# route to EDIT employee
+@app.route("/edit_employee/<int:employee_id>", methods=["POST", "GET"])
+def edit_employee(employee_id):
+    
+    if request.method == "GET":
+        #mySQL will grab the information based on the given ID
+        query = "SELECT * FROM Employees WHERE employee_id = %s" % (employee_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        return render_template("edit_employee.j2", employees=data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Employee"):
+            # Grab form input
+            first_name = request.form["fname"]
+            last_name = request.form["lname"]
+            email = request.form["email"]
+            phone = request.form["phone"]
+            hourly_salary = request.form["salary"]
+
+
+            query = "UPDATE Employees SET Employees.first_name = %s, Employees.last_name = %s, Employees.email = %s, Employees.phone = %s, Employees.hourly_salary = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (first_name, last_name, email, phone, hourly_salary))
+            mysql.connection.commit()
+
+
+            return redirect("/employees")
+
+# route to display customers page
+@app.route("/customers", methods=["POST", "GET"])
+def customers():
+    if request.method == "GET":
+        # Select all data from customers table
+        query = "SELECT * FROM Customers" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("customers.j2", customers=data)
+    
+    if request.method == "POST":
+        
+        if request.form.get("Add_Customer"):
+            # Grab form input
+            first_name = request.form["fname"]
+            last_name = request.form["lname"]
+            email = request.form["email"]
+            phone = request.form["phone"]
+            
+            # INSERT values
+            query = "INSERT INTO Customers (first_name, last_name, email, phone) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (first_name, last_name, email, phone))
+            mysql.connection.commit()
+
+        # redirect to customers page
+        return redirect("/customers")
+
+# route to DELETE customer
+@app.route("/delete_customer/<int:customer_id>")
+def delete_customer(customer_id):
+    # query to delete the customer with our passed customer id
+    query = "DELETE FROM Customers WHERE customer_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (customer_id,))
+    mysql.connection.commit()
+
+    # redirect to cat page
+    return redirect("/customers")
+
+
+
+# route to EDIT customer
+@app.route("/edit_customer/<int:customer_id>", methods=["POST", "GET"])
+def edit_customer(customer_id):
+    
+    if request.method == "GET":
+        #mySQL will grab the information based on the given ID
+        query = "SELECT * FROM Customers WHERE customer_id = %s" % (customer_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        return render_template("edit_customer.j2", customers=data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Customer"):
+            # Grab form input
+            first_name = request.form["fname"]
+            last_name = request.form["lname"]
+            email = request.form["email"]
+            phone = request.form["phone"]
+
+
+            query = "UPDATE Customers SET Customers.first_name = %s, Customers.last_name = %s, Customers.email = %s, Customers.phone = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (first_name, last_name, email, phone))
+            mysql.connection.commit()
+
+
+            return redirect("/customers")
+
+
+
+
 
 # Listener
 # change the port number if deploying on the flip servers
