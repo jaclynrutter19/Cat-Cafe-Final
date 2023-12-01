@@ -411,7 +411,7 @@ def delete_customer(customer_id):
     cur.execute(query, (customer_id,))
     mysql.connection.commit()
 
-    # redirect to cat page
+    # redirect to customers page
     return redirect("/customers")
 
 
