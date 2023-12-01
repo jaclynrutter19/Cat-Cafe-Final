@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <title>Cat Cafe</title>
+</head>
+<body>
+    <header>
+        <p class="company"><a href="/">Cat Cafe</a></p>
+        <nav>
+             <a href="cats">Cats</a>
+            <a href="cafe_products">Cafe Products</a>
+            <a href="employees">Employees</a>
+            <a href="customers">Customers</a>
+            <a href="foster_parents">Foster Parents</a>
+            <a href="adoptions">Adoptions</a>
+            <a href="cafe_transactions">Cafe Transactions</a>
+            <a href="product_orders">Product Orders</a>
+            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
+        </nav>
+    </header>
+    <main>
+        <div class="content-stripe hero-stripe">
+            <h1>Edit Customer</h1>
+        </div>
+        <div class="content-stripe table-stripe">
+            <table>
+            <thead>
+                <tr>
+                  <!-- Iterate through each key in the first entry to get the
+                    column name -->
+                    {% for key in customers[0].keys() %}
+
+                    <!-- Create a <th> tag with the key inside of it, this will be
+                    our header row -->
+                    <th>{{ key }}</th>
+
+                    <!-- End of this for loop -->
+                    {% endfor %}
+                </tr>
+                <tbody>
+        
+                <!-- Now, iterate through every customer in customers -->
+                {% for customer in customers %}
+                <tr>
+                    <!-- Then iterate through every key in the current person dictionary -->
+                    {% for key in customer.keys() %}
+
+                    <!-- Create a <td> element with the value of that key in it -->
+                    <td>{{customer[key]}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+
+            </div>
+        <div class="content-stripe add-stripe">
+            <div class="form-region">
+                <form id = "editCustomer" action = "/edit_customer/{{customers[0].customer_id}}" method = "post">
+                    <div class="group-one">
+
+                    <label for="fname">First Name:</label><br>
+                    <input type="text" class = "form-control" id="fname" name="fname" pattern = "[A-Za-z]{1,}"
+                    placeholder = "" value = "{{customers[0].first_name}}" required><br>
+
+                    <label for="lname">Last Name:</label><br>
+                    <input type="text"  value = "{{customers[0].last_name}}" id="lname" name="lname">
+
+                    <label for="email">Email:</label><br>
+                    <input type="text" id="email"  value = "{{customers[0].email}}"name="email">
+
+                    <label for="phone">Phone:</label><br>
+                    <input type="text" id="phone"  value = "{{customers[0].phone}}" name="phone">
+                    </div>
+
+                    <div class="group-three">
+                        <input class="btn btn-primary" type="submit" value="Edit" name="Edit_Customer">
+                        <input class="btn" type="button" value="Cancel">
+                        </div>
+                </form>
+            </div>
+        </div>     
+</body>
+</html>
