@@ -87,6 +87,20 @@
                 </form>
             </div>
         </div>
+        <div class="content-stripe update-stripe">
+            <h2>Edit Parent</h2>
+            <!-- Iterate through each parent to populate dropdown --!>
+            <form form id = "foster_parent_id" action = "/foster_parents" method = "post">
+            <select> 
+                {% for parent in foster_parents %}
+                    <option value = "{{parent.foster_parent_id}}" > {{parent.first_name}} {{parent.last_name}}</option>
+                {% endfor %}
+            </select>
+            <div class="group-three">
+                    <input class="btn btn-primary" type="submit" value="Submit" name="Edit_Parent">
+            </div>
+            </form>
+        </div>
         
 
     </main>

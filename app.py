@@ -141,6 +141,10 @@ def foster_parents():
             cur = mysql.connection.cursor()
             cur.execute(query, (fname, lname, email, phone))
             mysql.connection.commit()
+        
+        if request.form.get("Edit_Parent"):
+            foster_parent_id = request.form["foster_parent_id"]
+            return redirect("/edit_foster_parent/foster_parent_id")
 
         # redirect to cat page
         return redirect("/foster_parents")
@@ -157,70 +161,25 @@ def delete_foster_parent(foster_parent_id):
      # redirect to foster_parents page
     return redirect("/foster_parents")
 
-# route to EDIT foster_parent
-# route to EDIT cat
+@app.route("/edit_foster_parent/<int:foster_parent_id>", methods=["POST", "GET"])
+def edit_foster_parent(foster_parent_id):
+    if request.method == "GET":
+        query = "SELECT * FROM Foster_Parents WHERE foster_parent_id = '%s';"
+        cur = mysql.connection.cursor()
+        cur.execute(query, (foster_parent_id,))
+        mysql.connection.commit()
+
+     # redirect to foster_parents page
+    return redirect("/edit_foster_parent")
+    
 
 
 # route for foster cat relationships page
-@app.route("/foster_cat", methods=["POST", "GET"])
+@app.route("/foster_cat_relationships", methods=["POST", "GET"])
 def foster_cat_relationships():
-    # Separate out the request methods, in this case this is for a POST
-    # insert a foster cat relationship into the foster cat relationships entity
-    if request.method == "POST":
-        # fire off if user presses the Add foster cat relationship button
-        if request.form.get("Add_Foster_Cat_Relationship"):
-            # grab user form inputs
-            cat_id = request.form["cat_id"]
-            foster_parent_id = request.form["foster_parent_id"]
-
-            # account for null cat_id AND foster_parent_id
-            if cat_id == "" and foster_parent_id == "0":
-                # mySQL query to insert a new foster cat relationship into Foster_Cat_Relationships with our form inputs
-                query = "INSERT INTO Foster_Cat_Relationships (cat_id, foster_parent_id) VALUES (%s, %s)"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
-
-            # account for null foster_parent_id
-            elif foster_parent_id == "0":
-                query = "INSERT INTO Foster_Cat_Relationships (cat_id, foster_parent_id) VALUES (%s, %s,%s)"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
-
-            # account for null cat_id
-            elif cat_id == "":
-                query = "INSERT INTO Foster_Cat_Relationships (cat_id, foster_parent_id) VALUES (%s, %s,%s)"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
-
-            # no null inputs
-            else:
-                query = "INSERT INTO Foster_Cat_Relationships (cat_id, foster_parent_id) VALUES (%s, %s)"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
-
-            # redirect back to foster cat relationships page
-            return redirect("/foster_cat")
-
-    # Grab Foster_Cat_Relationships data so we send it to our template to display
-    if request.method == "GET":
-        # mySQL query to grab all the foster cat relationships in Foster_Cat_Relationships
-        query = "SELECT Foster_Cat_Relationships.id, cat_id, foster_parent_id, Foster_Cat_Relationships.name AS foster_parent_id, cat_id FROM Foster_Cat_Relationships LEFT JOIN Foster_Cat_Relationships ON cat_id = Foster_Cat_Relationships.id"
-        cur = mysql.connection.cursor()
-        cur.execute(query)
-        data = cur.fetchall()
-
-        # mySQL query to grab planet id/name data for our dropdown
-        query2 = "SELECT cat_id, foster_parent_id FROM Foster_Cat_Relationships"
-        cur = mysql.connection.cursor()
-        cur.execute(query2)
-        foster_parent_id_data = cur.fetchall()
-
-        # render edit_foster_cats_relationship page passing our query data and foster parent data to the foster cat relationships template
-        return render_template("foster_cat.j2", data=data)
+   
+     # render edit_foster_cats_relationship page passing our query data and foster parent data to the foster cat relationships template
+    return render_template("foster_cat_relationship.j2")
 
 
 # route for delete functionality, deleting a foster cat relationship from Foster_Cat_Relationships,
@@ -302,7 +261,7 @@ def edit_foster_cat_relationship(id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 30240)) 
+    port = int(os.environ.get('PORT', 30243)) 
     #                                 ^^^^
     #              You can replace this number with any valid port
     
