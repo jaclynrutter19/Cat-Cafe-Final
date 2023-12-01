@@ -280,7 +280,7 @@ def employees():
             hourly_salary = request.form["salary"]
             
             # INSERT values
-            query = "INSERT INTO Employees (first_name, last_name, email, phone, hourly_salary) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO Employees (first_name, last_name, email, phone, hourly_salary) VALUES (%s, %s, %s, %s, %s)"
             cur = mysql.connection.cursor()
             cur.execute(query, (first_name, last_name, email, phone, hourly_salary))
             mysql.connection.commit()
@@ -323,7 +323,7 @@ def edit_employee(employee_id):
             hourly_salary = request.form["salary"]
 
 
-            query = "UPDATE Employees SET Employees.first_name = %s, Employees.last_name = %s, Employees.email = %s, Employees.phone = %s, Employees.hourly_salary = %s"
+            query = "UPDATE Employees SET Employees.first_name = %s, Employees.last_name = %s, Employees.email = %s, Employees.phone = %s, Employees.hourly_salary = %s WHERE employee_id = %s"
             cur = mysql.connection.cursor()
             cur.execute(query, (first_name, last_name, email, phone, hourly_salary))
             mysql.connection.commit()
@@ -353,7 +353,7 @@ def customers():
             phone = request.form["phone"]
             
             # INSERT values
-            query = "INSERT INTO Customers (first_name, last_name, email, phone) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO Customers (first_name, last_name, email, phone) VALUES (%s, %s, %s, %s)"
             cur = mysql.connection.cursor()
             cur.execute(query, (first_name, last_name, email, phone))
             mysql.connection.commit()
@@ -396,7 +396,7 @@ def edit_customer(customer_id):
             phone = request.form["phone"]
 
 
-            query = "UPDATE Customers SET Customers.first_name = %s, Customers.last_name = %s, Customers.email = %s, Customers.phone = %s"
+            query = "UPDATE Customers SET Customers.first_name = %s, Customers.last_name = %s, Customers.email = %s, Customers.phone = %s WHERE customer_id = %s"
             cur = mysql.connection.cursor()
             cur.execute(query, (first_name, last_name, email, phone))
             mysql.connection.commit()
@@ -405,13 +405,125 @@ def edit_customer(customer_id):
             return redirect("/customers")
 
 
+# CAFE PRODUCTS ENTITY
+
+
+# route to display cafe products page
+@app.route("/cafe_products", methods=["POST", "GET"])
+def cafe_products():
+    if request.method == "GET":
+        # Select all data from cafe products table
+        query = "SELECT * FROM Cafe_Products" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("cafe_products.j2", cafe_products=data)
+    
+    if request.method == "POST":
+        
+        if request.form.get("Add_Cafe_Product"):
+            # Grab form input
+            name = request.form["name"]
+            price = request.form["price"]
+            quantity = request.form["quantity"]
+            product_type = request.form["product-type"]
+            
+            # INSERT values
+            query = "INSERT INTO Cafe_Products (name, price, quantity, product_type) VALUES (%s, %s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (name, price, quantity, product_type))
+            mysql.connection.commit()
+
+        # redirect to cafe products page
+        return redirect("/cafe_products")
+
+# route to DELETE cafe product
+@app.route("/delete_cafe_product/<int:product_id>")
+def delete_cafe_product(product_id):
+    # query to delete the cafe product with our passed cafe product id
+    query = "DELETE FROM Cafe_Products WHERE product_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (product_id,))
+    mysql.connection.commit()
+
+    # redirect to cafe products page
+    return redirect("/cafe_products")
+
+
+# route to EDIT cafe product
+@app.route("/edit_cafe_product/<int:product_id>", methods=["POST", "GET"])
+def edit_cafe_product(product_id):
+    
+    if request.method == "GET":
+        #mySQL will grab the information based on the given ID
+        query = "SELECT * FROM Cafe_Products WHERE product_id = %s" % (product_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        return render_template("edit_cafe_product.j2", cafe_products=data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Cafe_Product"):
+            # Grab form input
+            name = request.form["name"]
+            price = request.form["price"]
+            quantity = request.form["quantity"]
+            product_type = request.form["product-type"]
+
+
+            query = "UPDATE Cafe_Products SET Cafe_Products.name = %s, Cafe_Products.price = %s, Cafe_Products.quantity = %s, Cafe_Products.product_type = %s  WHERE product_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (name, price, quantity, product_type))
+            mysql.connection.commit()
+
+
+            return redirect("/cafe_products")
+
+
+
+
+# ADOPTIONS ENTITY
+
+
+# route to display adoptions page
+@app.route("/adoptions", methods=["POST", "GET"])
+def adoptions():
+    if request.method == "GET":
+        # Select all data from adoptions table
+        query = "SELECT * FROM Adoptions" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("adoptions.j2", adoptions=data)
+    
+    if request.method == "POST":
+        
+        if request.form.get("Add_Adoption"):
+            # Grab form input
+            customer_id = request.form["customer-id"]
+            cat_id = request.form["cat-id"]
+            foster_parent_id = request.form["f-parent-id"]
+            employee_id = request.form["employee-id"]
+            date = request.form["date"]
+            
+            # INSERT values
+            query = "INSERT INTO Adoptions (customer_id, cat_id, foster_parent_id, employee_id, date) VALUES (%s, %s, %s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customer_id, cat_id, foster_parent_id, employee_id, date))
+            mysql.connection.commit()
+
+        # redirect to adoptions page
+        return redirect("/adoptions")
+
 
 
 
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 30243)) 
+    port = int(os.environ.get('PORT', 30240)) 
     #                                 ^^^^
     #              You can replace this number with any valid port
     
