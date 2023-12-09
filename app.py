@@ -22,9 +22,9 @@ app = Flask(__name__)
 
 # database connection info
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_"
+app.config["MYSQL_USER"] = ""
 app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "cs340_"
+app.config["MYSQL_DB"] = ""
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
@@ -517,6 +517,264 @@ def adoptions():
         # redirect to adoptions page
         return redirect("/adoptions")
 
+# route to DELETE adoption
+@app.route("/delete_adoption/<int:adoption_id>")
+def delete_adoption(adoption_id):
+    # query to delete the adoption with our passed adoption id
+    query = "DELETE FROM Adoptions WHERE adoption_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (adoption_id,))
+    mysql.connection.commit()
+
+    # redirect to adoptions page
+    return redirect("/adoptions")
+
+# route to EDIT adoptions
+@app.route("/edit_adoption/<int:adoption_id>", methods=["POST", "GET"])
+def edit_adoption(adoption_id):
+    
+    if request.method == "GET":
+        #mySQL will grab the information based on the given ID
+        query = "SELECT * FROM Adoptions WHERE adoption_id = %s" % (adoption_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        return render_template("edit_adoption.j2", adoptions=data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Adoption"):
+            # Grab form input
+            customer_id = request.form["customer-id"]
+            cat_id = request.form["cat-id"]
+            foster_parent_id = request.form["f-parent-id"]
+            employee_id = request.form["employee-id"]
+            date = request.form["date"]
+
+
+            query = "UPDATE Adoptions SET Adoptions.customer_id = %s, Adoptions.cat_id = %s, Adoptions.foster_parent_id = %s, Adoptions.employee_id = %s, Adoptions.date = %s WHERE adoption_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customer_id, cat_id, foster_parent_id, employee_id, date))
+            mysql.connection.commit()
+
+
+            return redirect("/adoptions")
+
+# CAFE TRANSACTIONS ENTITY
+
+
+# route to display cafe transactions page
+@app.route("/cafe_transactions", methods=["POST", "GET"])
+def cafe_transactions():
+    if request.method == "GET":
+        # Select all data from cafe transactions table
+        query = "SELECT * FROM Cafe_Transactions" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("cafe_transactions.j2", cafe_transactions=data)
+    
+    if request.method == "POST":
+        
+        if request.form.get("Add_Cafe_Transaction"):
+            # Grab form input
+            customer_id = request.form["customer-id"]
+            employee_id = request.form["employee-id"]
+            order_date = request.form["date"]
+            total_price = request.form["total-price"]
+            
+            # INSERT values
+            query = "INSERT INTO Cafe_Transactions (customer_id, employee_id, order_date, total_price) VALUES (%s, %s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customer_id, employee_id, order_date, total_price))
+            mysql.connection.commit()
+
+        # redirect to cafe transactions page
+        return redirect("/cafe_transactions")
+
+# route to DELETE cafe transaction
+@app.route("/delete_cafe_transaction/<int:transaction_id>")
+def delete_cafe_transaction(transaction_id):
+    # query to delete the cafe transaction with our passed transaction id
+    query = "DELETE FROM Cafe_Transactions WHERE transaction_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (transaction_id,))
+    mysql.connection.commit()
+
+    # redirect to cafe transactions page
+    return redirect("/cafe_transactions")
+
+
+# route to EDIT cafe transaction
+@app.route("/edit_cafe_transaction/<int:transaction_id>", methods=["POST", "GET"])
+def edit_cafe_transaction(transaction_id):
+    
+    if request.method == "GET":
+        #mySQL will grab the information based on the given ID
+        query = "SELECT * FROM Cafe_Transactions WHERE transaction_id = %s" % (transaction_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        return render_template("edit_cafe_transaction.j2", cafe_transaction=data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Cafe_Transaction"):
+            # Grab form input
+            customer_id = request.form["customer-id"]
+            employee_id = request.form["employee-id"]
+            order_date = request.form["date"]
+            total_price = request.form["total-price"]
+
+
+            query = "UPDATE Cafe_Transactions SET Cafe_Transactions.customer_id = %s, Cafe_Transactions.employee_id = %s, Cafe_Transactions.order_date = %s, Cafe_Transactions.total_price = %s WHERE transaction_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (customer_id, employee_id, order_date, total_price))
+            mysql.connection.commit()
+
+
+            return redirect("/cafe_transactions")
+
+
+# PRODUCT ORDERS ENTITY
+
+# route to display product orders entities page
+@app.route("/product_orders", methods=["POST", "GET"])
+def product_orders():
+    if request.method == "GET":
+        # Select all data from product orders table
+        query = "SELECT * FROM Product_Orders" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("product_orders.j2", product_orders=data)
+    
+    if request.method == "POST":
+        
+        if request.form.get("Add_Product_Order"):
+            # Grab form input
+            transaction_id = request.form["transaction-id"]
+            product_id = request.form["product-id"]
+            quantity = request.form["quantity"]
+            
+            # INSERT values
+            query = "INSERT INTO Product_Orders (transaction_id, product_id, quantity) VALUES (%s, %s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (transaction_id, product_id, quantity))
+            mysql.connection.commit()
+
+        # redirect to product orders page
+        return redirect("/product_orders")
+
+# route to DELETE product order
+@app.route("/delete_product_order/<int:product_order_id>")
+def delete_product_order(product_order_id):
+    # query to delete product order with our passed product order id
+    query = "DELETE FROM Product_Orders WHERE product_order_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (product_order_id,))
+    mysql.connection.commit()
+
+    # redirect to product orders page
+    return redirect("/product_orders")
+
+# route to EDIT product order
+@app.route("/edit_product_order/<int:product_order_id>", methods=["POST", "GET"])
+def edit_product_order(product_order_id):
+    
+    if request.method == "GET":
+        #mySQL will grab the information based on the given ID
+        query = "SELECT * FROM Product_Orders WHERE product_order_id = %s" % (product_order_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        return render_template("edit_product_order.j2", product_order=data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Product_Order"):
+            # Grab form input
+            transaction_id = request.form["transaction-id"]
+            product_id = request.form["product-id"]
+            quantity = request.form["quantity"]
+
+
+            query = "UPDATE Product_Orders SET Product_Orders.transaction_id = %s, Product_Orders.product_id = %s, Product_Orders.quantity = %s WHERE product_order_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (transaction_id, product_id, quantity))
+            mysql.connection.commit()
+
+
+            return redirect("/product_orders")
+
+
+# FOSTER/CAT RELATIONSHIPS ENTITY
+
+# route to display foster cat relationships page
+@app.route("/foster_cat_relationships", methods=["POST", "GET"])
+def foster_cat_relationships():
+    if request.method == "GET":
+        # Select all data from foster cat relationships table
+        query = "SELECT * FROM Foster_Cat_Relationships" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("foster_cat_relationships.j2", foster_cat_relationships=data)
+    
+    if request.method == "POST":
+        
+        if request.form.get("Add_Foster_Cat_Relationship"):
+            # Grab form input
+            cat_id = request.form["cat-id"]
+            foster_parent_id = request.form["f-parent-id"]
+            
+            # INSERT values
+            query = "INSERT INTO Foster_Cat_Relationships (cat_id, foster_parent_id) VALUES (%s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (cat_id, foster_parent_id))
+            mysql.connection.commit()
+
+        # redirect to foster cat relationships page
+        return redirect("/foster_cat_relationships")
+
+# route to DELETE foster cat relationship
+@app.route("/delete_foster_cat_relationship/<int:relationship_id>")
+def delete_foster_cat_relationship(relationship_id):
+    # query to delete foster cat relationship with our passed relationship id
+    query = "DELETE FROM Foster_Cat_Relationships WHERE relationship_id = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (relationship_id,))
+    mysql.connection.commit()
+
+    # redirect to product orders page
+    return redirect("/foster_cat_relationships")
+
+# route to EDIT foster cat relationship
+@app.route("/edit_foster_cat_relationship/<int:relationship_id>", methods=["POST", "GET"])
+def edit_foster_cat_relationship(relationship_id):
+    
+    if request.method == "GET":
+        #mySQL will grab the information based on the given ID
+        query = "SELECT * FROM Foster_Cat_Relationships WHERE relationship_id = %s" % (relationship_id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+        return render_template("edit_foster_cat_relationship.j2", foster_cat_relationships=data)
+    
+    if request.method == "POST":
+        if request.form.get("Edit_Foster_Cat_Relationship"):
+            # Grab form input
+            cat_id = request.form["cat-id"]
+            foster_parent_id = request.form["f-parent-id"]
+
+
+            query = "UPDATE Foster_Cats_Relationships SET Foster_Cats_Relationships.cat_id = %s, Foster_Cats_Relationships.foster_parent_id = %s WHERE relationship_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (cat_id, foster_parent_id))
+            mysql.connection.commit()
+
+
+            return redirect("/foster_cat_relationships")
 
 
 

@@ -19,20 +19,20 @@
             <a href="adoptions">Adoptions</a>
             <a href="cafe_transactions">Cafe Transactions</a>
             <a href="product_orders">Product Orders</a>
-            <a href="foster-cat_relationships">Foster/Cat Relationships</a>
+            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
         </nav>
     </header>
     <main>
         <div class="content-stripe hero-stripe">
-            <h1>Manage Adoptions</h1>
+            <h1>Manage Foster/Cat Relationships</h1>
         </div>
         <div class="content-stripe table-stripe">
             <table>
-                <thead>
+            <thead>
                 <tr>
-                    <!-- Iterate through each key in the first entry to get the
+                  <!-- Iterate through each key in the first entry to get the
                     column name -->
-                    {% for key in adoptions[0].keys() %}
+                    {% for key in foster_cat_relationships[0].keys() %}
 
                     <!-- Create a <th> tag with the key inside of it, this will be
                     our header row -->
@@ -42,50 +42,47 @@
                     {% endfor %}
                 </tr>
                 <tbody>
-
-                <!-- Now, iterate through every adoption in adoptions -->
-                {% for adoption in adoptions %}
+        
+                <!-- Now, iterate through every relationship in foster cat relationships -->
+                {% for foster_cat_relationship in foster_cat_relationships %}
                 <tr>
                     <!-- Then iterate through every key in the current person dictionary -->
-                    {% for key in adoption.keys() %}
+                    {% for key in foster_cat_relationship.keys() %}
 
                     <!-- Create a <td> element with the value of that key in it -->
-                    <td>{{adoption[key]}}</td>
+                    <td>{{cat[key]}}</td>
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
-                    <td><a href="edit_adoption/{{adoption.adoption_id}}" class ="btn btn-default">Edit</a></td>
-                    <td><a href="delete_adoption/{{adoption.adoption_id}}" class ="btn">Delete</a></td>
+                    <td><a href="edit_foster_cat_relationship/{{foster_cat_relationship.relationship_id}}" class ="btn btn-default">Edit</a></td>
+                    <td><a href="delete_foster_cat_relationship/{{foster_cat_relationship.relationship_id}}" class ="btn">Delete</a></td>
                 </tr>
                 {% endfor %}
-            </table>
+                </table>
+        
         </div>
         <div class="content-stripe add-stripe">
-            <h2>Add Adoption</h2>
+            <h2>Add Cat</h2>
             <div class="form-region">
-                <form>
+                <form id = "insertFosterCatRelationship" action = "/foster_cat_relationships" method = "post">
                     <div class="group-one">
-                    <label for="customer-id">Customer ID:</label><br>
-                    <input type="text" id="customer-id" name="customer-id">
                     <label for="cat-id">Cat ID:</label><br>
-                    <input type="text" id="cat-id" name="cat-id">
+                    <input type="int" class = "form-control" id="cat-id" name="cat-id"
+                    placeholder = "" required><br>
+
                     <label for="f-parent-id">Foster Parent ID:</label><br>
-                    <input type="text" id="f-parent-id" name="f-parent-id">
-                    <label for="employee-id">Employee ID:</label><br>
-                    <input type="text" id="employee-id" name="employee-id">
-                    <label for="adoption-date">Date:</label><br>
-                    <input type="date" id="adoption-date" name="adoption-date"><br>
+                    <input type="int" id="f-parent-id" name="f-parent-id">
+                    <div class="group-two">
+                    <input class="btn btn-primary" type="submit" value="Submit" name="Add_Foster_Cat_Relationship">
+                    <input class="btn" type="button" value="Cancel">
                     </div>
-                    <div class="group-three">
-                        <input class="btn" type="submit" value="Save">
-                        <input class="btn" type="button" value="Cancel">
-                        </div>
                 </form>
             </div>
         </div>
-    </main>
-    <footer>
-        <p>&#169; 2023 Olivia Russell & Jaclyn Rutter</p>
-    </footer>
+        </main>
+        <footer>
+            <p>&#169; 2023 Olivia Russell & Jaclyn Rutter</p>
+        </footer>
+        
 </body>
 </html>
