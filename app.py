@@ -322,12 +322,10 @@ def edit_employee(employee_id):
             phone = request.form["phone"]
             hourly_salary = request.form["salary"]
 
-
             query = "UPDATE Employees SET Employees.first_name = %s, Employees.last_name = %s, Employees.email = %s, Employees.phone = %s, Employees.hourly_salary = %s WHERE employee_id = %s"
             cur = mysql.connection.cursor()
             cur.execute(query, (first_name, last_name, email, phone, hourly_salary, employee_id))
             mysql.connection.commit()
-
 
             return redirect("/employees")
 
@@ -398,9 +396,8 @@ def edit_customer(customer_id):
 
             query = "UPDATE Customers SET Customers.first_name = %s, Customers.last_name = %s, Customers.email = %s, Customers.phone = %s WHERE customer_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (first_name, last_name, email, phone))
+            cur.execute(query, (first_name, last_name, email, phone, customer_id))
             mysql.connection.commit()
-
 
             return redirect("/customers")
 
