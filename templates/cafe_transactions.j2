@@ -66,22 +66,22 @@
             <div class="form-region">
                 <form id = "insertCafeTransaction" action = "/cafe_transactions" method = "post">
                     <div class="group-one">
-                    <label for="customer-id">Customer ID:</label><br>
-                    <input type="text" class = "form-control" id="customer-id" name="customer-id"
-                    placeholder = "" required><br>
 
-                    <label for="employee-id">Employee ID:</label><br>
-                    <input type="int" id="employee-id" name="employee-id">
+                    <label for="customer_id">Customer ID:</label>
+                    <input type="text" class = "form-control" id="customer_id" name="customer_id"
+                    placeholder = "" required>
+
+                    <label for="employee_id">Employee ID:</label><br>
+                    <input type="int" id="employee_id" name="employee_id">
 
                     <label for="date">Order Date:</label><br>
                     <input type="date" id="date" name="date">
 
-                    <label for="total-price">Total Price:</label><br>
-                    <input type="text" id="total-price" name="total-price">
+                    <label for="total_price">Total Price:</label><br>
+                    <input type="text" id="total_price" name="total_price">
                     </div>
                     <div class="group-two">
                         <input class="btn btn-primary" type="submit" value="Submit" name="Add_Cafe_Transaction">
-                        <input class="btn" type="button" value="Cancel">
                     </div>
                 </form>
             </div>

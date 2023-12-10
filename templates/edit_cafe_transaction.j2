@@ -11,15 +11,15 @@
     <header>
         <p class="company"><a href="/">Cat Cafe</a></p>
         <nav>
-             <a href="cats">Cats</a>
-            <a href="cafe_products">Cafe Products</a>
-            <a href="employees">Employees</a>
-            <a href="customers">Customers</a>
-            <a href="foster_parents">Foster Parents</a>
-            <a href="adoptions">Adoptions</a>
-            <a href="cafe_transactions">Cafe Transactions</a>
-            <a href="product_orders">Product Orders</a>
-            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
+            <a href="/cats">Cats</a>
+            <a href="/cafe_products">Cafe Products</a>
+            <a href="/employees">Employees</a>
+            <a href="/customers">Customers</a>
+            <a href="/foster_parents">Foster Parents</a>
+            <a href="/adoptions">Adoptions</a>
+            <a href="/cafe_transactions">Cafe Transactions</a>
+            <a href="/product_orders">Product Orders</a>
+            <a href="/foster_cat_relationships">Foster/Cat Relationships</a>
         </nav>
     </header>
     <main>
@@ -62,19 +62,25 @@
                 <form id = "editCafeTransaction" action = "/edit_cafe_transaction/{{cafe_transactions[0].transaction_id}}" method = "post">
                     <div class="group-one">
 
-                    <label for="customer-id">Customer ID:</label><br>
-                    <input type="text" class = "form-control" id="customer-id" name="customer-id" pattern = "[A-Za-z]{1,}"
-                    placeholder = "" value = "{{cafe_transactions[0].customer_id}}" required><br>
+                    <label for="customer-id">Customer ID:</label>
+                    <input type="int" class = "form-control" id="customer_id" name="customer_id"
+                    placeholder = "" value = "{{cafe_transactions[0].customer_id}}" required>
 
-                    <label for="employee-id">Employee ID:</label><br>
-                    <input type="text"  value = "{{cafe_transactions[0].employee_id}}" id="employee-id" name="employee-id">
+                    <label for="employee_id">Employee ID:</label>
+                    <input type="int"  value = "{{cafe_transactions[0].employee_id}}" id="employee_id" name="employee_id">
 
-                    <label for="date">Order Date:</label><br>
-                    <input type="date" id="date"  value = "{{cafe_transactions[0].date}}"name="date">
+                    <label for="date">Order Date:</label>
+                    <input type="date" id="date"  value = "{{cafe_transactions[0].order_date}}" name="date">
 
                     <label for="total-price">Total Price:</label><br>
-                    <input type="text" id="color"  value = "{{cafe_transactions[0].total_price}}" name="total-price">
+                    <input type="int" id="total_price"  value = "{{cafe_transactions[0].total_price}}" name="total_price">
                     </div>
+
+                    <div class="group-three">
+                        <input class="btn btn-primary" type="submit" value="Save" name="Edit_Transaction">
+                        <a href="/cafe_transactions" class ="btn btn-primary">Cancel</a>
+                    </div>
+
                 </form>
             </div>
         </div>     

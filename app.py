@@ -404,7 +404,6 @@ def edit_customer(customer_id):
 
 # CAFE PRODUCTS ENTITY
 
-
 # route to display cafe products page
 @app.route("/cafe_products", methods=["POST", "GET"])
 def cafe_products():
@@ -575,10 +574,10 @@ def cafe_transactions():
         
         if request.form.get("Add_Cafe_Transaction"):
             # Grab form input
-            customer_id = request.form["customer-id"]
-            employee_id = request.form["employee-id"]
+            customer_id = request.form["customer_id"]
+            employee_id = request.form["employee_id"]
             order_date = request.form["date"]
-            total_price = request.form["total-price"]
+            total_price = request.form["total_price"]
             
             # INSERT values
             query = "INSERT INTO Cafe_Transactions (customer_id, employee_id, order_date, total_price) VALUES (%s, %s, %s, %s)"
@@ -612,25 +611,23 @@ def edit_cafe_transaction(transaction_id):
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
-        return render_template("edit_cafe_transaction.j2", cafe_transaction=data)
+        return render_template("edit_cafe_transaction.j2", cafe_transactions=data)
     
     if request.method == "POST":
-        if request.form.get("Edit_Cafe_Transaction"):
+        if request.form.get("Edit_Transaction"):
             # Grab form input
-            customer_id = request.form["customer-id"]
-            employee_id = request.form["employee-id"]
+            customer_id = request.form["customer_id"]
+            employee_id = request.form["employee_id"]
             order_date = request.form["date"]
-            total_price = request.form["total-price"]
+            total_price = request.form["total_price"]
 
 
             query = "UPDATE Cafe_Transactions SET Cafe_Transactions.customer_id = %s, Cafe_Transactions.employee_id = %s, Cafe_Transactions.order_date = %s, Cafe_Transactions.total_price = %s WHERE transaction_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (customer_id, employee_id, order_date, total_price))
+            cur.execute(query, (customer_id, employee_id, order_date, total_price, transaction_id))
             mysql.connection.commit()
 
-
-            return redirect("/cafe_transactions")
-
+        return redirect("/cafe_transactions")
 
 # PRODUCT ORDERS ENTITY
 
