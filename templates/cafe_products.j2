@@ -54,8 +54,8 @@
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
-                    <td><a href="edit_cafe_product/{{cafe_product.product_id}}" class ="btn btn-default">Edit</a></td>
-                    <td><a href="delete_cafe_product/{{cafe_product.product_id}}" class ="btn">Delete</a></td>
+                    <td><a href="edit_cafe_product/{{cafe_product.product_id}}" class ="edit-del">Edit</a></td>
+                    <td><a href="delete_cafe_product/{{cafe_product.product_id}}" class ="edit-del">Delete</a></td>
                 </tr>
                 {% endfor %}
               </table>
@@ -71,12 +71,17 @@
                     <input type="text" id="price" name="price">
                     <label for="quantity">Quantity:</label><br>
                     <input type="text" id="quantity" name="quantity">
-                    <label for="product-type">Product Type:</label><br>
-                    <input type="text" id="product-type" name="product-type">
+                    <label for="product-type">Category:</label><br>
+                     <select class = "form-control" id = "product-type"  name="product-type" required>
+                        <option value="" selected disabled hidden>Choose here</option>
+                        <option value="Food">Food</option>
+                        <option value="Beverage">Beverage</option>
+                        <option value="Merch">Merch</option>
+                        <option value="Other">Other</option>
+                    </select>
                     </div>
                     <div class="group-three">
                         <input class="btn btn-primary" type="submit" value="Submit" name="Add_Cafe_Product">
-                        <input class="btn" type="button" value="Cancel">
                     </div>
             </div>
         </div>

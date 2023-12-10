@@ -54,8 +54,8 @@
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
-                    <td><a href="edit_employee/{{employee.employee_id}}" class ="btn btn-default">Edit</a></td>
-                    <td><a href="delete_employee/{{employee.employee_id}}" class ="btn">Delete</a></td>
+                    <td><a href="edit_employee/{{employee.employee_id}}" class ="edit-del">Edit</a></td>
+                    <td><a href="delete_employee/{{employee.employee_id}}" class ="edit-del">Delete</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -75,14 +75,13 @@
                     <input type="text" id="phone" name="phone">
                     <label for="salary">Hourly Salary:</label><br>
                     <input type="text" id="salary" name="salary">
-                    </div>
-                    <div class="group-three">
+            </div>
+                    
+                <div class="group-three">
                         <input class="btn btn-primary" type="submit" value="Submit" name="Add_Employee">
-                        <input class="btn" type="button" value="Cancel">
                         </div>
                 </form>
             </div>
-        </div>
     </main>
     <footer>
         <p>&#169; 2023 Olivia Russell & Jaclyn Rutter</p>

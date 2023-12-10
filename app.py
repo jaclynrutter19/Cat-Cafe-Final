@@ -22,9 +22,9 @@ app = Flask(__name__)
 
 # database connection info
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = ""
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = ""
+app.config["MYSQL_USER"] = "cs340_rutterj"
+app.config["MYSQL_PASSWORD"] = "9585"
+app.config["MYSQL_DB"] = "cs340_rutterj"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
@@ -325,7 +325,7 @@ def edit_employee(employee_id):
 
             query = "UPDATE Employees SET Employees.first_name = %s, Employees.last_name = %s, Employees.email = %s, Employees.phone = %s, Employees.hourly_salary = %s WHERE employee_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (first_name, last_name, email, phone, hourly_salary))
+            cur.execute(query, (first_name, last_name, email, phone, hourly_salary, employee_id))
             mysql.connection.commit()
 
 
@@ -464,17 +464,17 @@ def edit_cafe_product(product_id):
         return render_template("edit_cafe_product.j2", cafe_products=data)
     
     if request.method == "POST":
-        if request.form.get("Edit_Cafe_Product"):
+        if request.form.get("edit_cafe_product"):
             # Grab form input
             name = request.form["name"]
             price = request.form["price"]
             quantity = request.form["quantity"]
-            product_type = request.form["product-type"]
+            product_type = request.form["product_type"]
 
 
             query = "UPDATE Cafe_Products SET Cafe_Products.name = %s, Cafe_Products.price = %s, Cafe_Products.quantity = %s, Cafe_Products.product_type = %s  WHERE product_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (name, price, quantity, product_type))
+            cur.execute(query, (name, price, quantity, product_type, product_id))
             mysql.connection.commit()
 
 
@@ -710,73 +710,6 @@ def edit_product_order(product_order_id):
 # FOSTER/CAT RELATIONSHIPS ENTITY
 
 # route to display foster cat relationships page
-@app.route("/foster_cat_relationships", methods=["POST", "GET"])
-def foster_cat_relationships():
-    if request.method == "GET":
-        # Select all data from foster cat relationships table
-        query = "SELECT * FROM Foster_Cat_Relationships" 
-        cur = mysql.connect.cursor()
-        cur.execute(query)
-        data = cur.fetchall()
-    
-        return render_template("foster_cat_relationships.j2", foster_cat_relationships=data)
-    
-    if request.method == "POST":
-        
-        if request.form.get("Add_Foster_Cat_Relationship"):
-            # Grab form input
-            cat_id = request.form["cat-id"]
-            foster_parent_id = request.form["f-parent-id"]
-            
-            # INSERT values
-            query = "INSERT INTO Foster_Cat_Relationships (cat_id, foster_parent_id) VALUES (%s, %s)"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (cat_id, foster_parent_id))
-            mysql.connection.commit()
-
-        # redirect to foster cat relationships page
-        return redirect("/foster_cat_relationships")
-
-# route to DELETE foster cat relationship
-@app.route("/delete_foster_cat_relationship/<int:relationship_id>")
-def delete_foster_cat_relationship(relationship_id):
-    # query to delete foster cat relationship with our passed relationship id
-    query = "DELETE FROM Foster_Cat_Relationships WHERE relationship_id = '%s';"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (relationship_id,))
-    mysql.connection.commit()
-
-    # redirect to product orders page
-    return redirect("/foster_cat_relationships")
-
-# route to EDIT foster cat relationship
-@app.route("/edit_foster_cat_relationship/<int:relationship_id>", methods=["POST", "GET"])
-def edit_foster_cat_relationship(relationship_id):
-    
-    if request.method == "GET":
-        #mySQL will grab the information based on the given ID
-        query = "SELECT * FROM Foster_Cat_Relationships WHERE relationship_id = %s" % (relationship_id)
-        cur = mysql.connection.cursor()
-        cur.execute(query)
-        data = cur.fetchall()
-        return render_template("edit_foster_cat_relationship.j2", foster_cat_relationships=data)
-    
-    if request.method == "POST":
-        if request.form.get("Edit_Foster_Cat_Relationship"):
-            # Grab form input
-            cat_id = request.form["cat-id"]
-            foster_parent_id = request.form["f-parent-id"]
-
-
-            query = "UPDATE Foster_Cats_Relationships SET Foster_Cats_Relationships.cat_id = %s, Foster_Cats_Relationships.foster_parent_id = %s WHERE relationship_id = %s"
-            cur = mysql.connection.cursor()
-            cur.execute(query, (cat_id, foster_parent_id))
-            mysql.connection.commit()
-
-
-            return redirect("/foster_cat_relationships")
-
-
 
 # Listener
 # change the port number if deploying on the flip servers

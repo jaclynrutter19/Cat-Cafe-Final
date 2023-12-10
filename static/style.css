@@ -110,7 +110,7 @@ body {
 
   .group-three {
     margin-top: 10px;
-    display: flex;
+    display: inline;
   }
 
   .btn {
@@ -122,6 +122,15 @@ body {
       font-family: "Dosis", serif;
   }
 
+  a.btn {
+      background-color: #000000;
+      color: #FFFFFF;
+      padding: 10px;
+      margin-right: 15px;
+      border: 2px solid #FFFFFF;
+      font-family: "Dosis", serif;
+  }
+  
   .delete-stripe {
       display: flex;
       flex-direction: column;
