@@ -11,15 +11,15 @@
     <header>
         <p class="company"><a href="/">Cat Cafe</a></p>
         <nav>
-             <a href="cats">Cats</a>
-            <a href="cafe_products">Cafe Products</a>
-            <a href="employees">Employees</a>
-            <a href="customers">Customers</a>
-            <a href="foster_parents">Foster Parents</a>
-            <a href="adoptions">Adoptions</a>
-            <a href="cafe_transactions">Cafe Transactions</a>
-            <a href="product_orders">Product Orders</a>
-            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
+             <a href="/cats">Cats</a>
+            <a href="/cafe_products">Cafe Products</a>
+            <a href="/employees">Employees</a>
+            <a href="/customers">Customers</a>
+            <a href="/foster_parents">Foster Parents</a>
+            <a href="/adoptions">Adoptions</a>
+            <a href="/cafe_transactions">Cafe Transactions</a>
+            <a href="/product_orders">Product Orders</a>
+            <a href="/foster_cat_relationships">Foster/Cat Relationships</a>
         </nav>
     </header>
     <main>
@@ -41,16 +41,15 @@
                     <!-- End of this for loop -->
                     {% endfor %}
                 </tr>
-                <tbody>
-        
-                <!-- Now, iterate through every relationship in foster cats relationships -->
-                {% for foster_cat_relationship in foster_cat_relationships %}
+                
+                <!-- Now, iterate through every relationship in foster_parent_relationships -->
+                {% for foster_parent_relationship in foster_cat_relationships %}
                 <tr>
                     <!-- Then iterate through every key in the current person dictionary -->
-                    {% for key in foster_cat_relationship.keys() %}
-
+                    {% for key in foster_parent_relationship.keys() %}
+                    
                     <!-- Create a <td> element with the value of that key in it -->
-                    <td>{{foster_cat_relationship[key]}}</td>
+                    <td>{{foster_parent_relationship[key]}}</td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
@@ -67,7 +66,7 @@
                     placeholder = "" value = "{{foster_cat_relationships[0].cat_id}}" required><br>
 
                     <label for="f-parent-id">Foster Parent ID:</label><br>
-                    <input type="date"  value = "{{foster_cat_relationships[0].foster_parent_id}}" id="f-parent-id" name="f-parent-id">
+                    <input type="int"  value = "{{foster_cat_relationships[0].foster_parent_id}}" id="f-parent-id" name="f-parent-id">
 
                     <div class="group-two">
                         <input class="btn btn-primary" type="submit" value="Save" name="Edit_Foster_Cat_Relationship">

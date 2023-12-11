@@ -32,7 +32,7 @@
                 <tr>
                   <!-- Iterate through each key in the first entry to get the
                     column name -->
-                    {% for key in foster_cat_relationships[0].keys() %}
+                    {% for key in relationships[0].keys() %}
 
                     <!-- Create a <th> tag with the key inside of it, this will be
                     our header row -->
@@ -44,18 +44,18 @@
                 <tbody>
         
                 <!-- Now, iterate through every relationship in foster cat relationships -->
-                {% for foster_cat_relationship in foster_cat_relationships %}
+                {% for relationship in relationships %}
                 <tr>
                     <!-- Then iterate through every key in the current person dictionary -->
-                    {% for key in foster_cat_relationship.keys() %}
+                    {% for key in relationship.keys() %}
 
                     <!-- Create a <td> element with the value of that key in it -->
-                    <td>{{cat[key]}}</td>
+                    <td>{{relationship[key]}}</td>
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
-                    <td><a href="edit_foster_cat_relationship/{{foster_cat_relationship.relationship_id}}" class ="edit-del">Edit</a></td>
-                    <td><a href="delete_foster_cat_relationship/{{foster_cat_relationship.relationship_id}}" class ="edit-del">Delete</a></td>
+                    <td><a href="edit_foster_cat_relationship/{{relationship.relationship_id}}" class ="edit-del">Edit</a></td>
+                    <td><a href="delete_relationship/{{relationship.relationship_id}}" class ="edit-del">Delete</a></td>
                 </tr>
                 {% endfor %}
                 </table>
@@ -66,15 +66,15 @@
             <div class="form-region">
                 <form id = "insertFosterCatRelationship" action = "/foster_cat_relationships" method = "post">
                     <div class="group-one">
-                    <label for="cat-id">Cat ID:</label><br>
-                    <input type="int" class = "form-control" id="cat-id" name="cat-id"
+                    <label for="cat_id">Cat ID:</label><br>
+                    <input type="int" class = "form-control" id="cat_id" name="cat_id"
                     placeholder = "" required><br>
 
-                    <label for="f-parent-id">Foster Parent ID:</label><br>
-                    <input type="int" id="f-parent-id" name="f-parent-id">
-                    <div class="group-two">
-                    <input class="btn btn-primary" type="submit" value="Submit" name="Add_Foster_Cat_Relationship">
-                    <input class="btn" type="button" value="Cancel">
+                    <label for="f_parent_id">Foster Parent ID:</label><br>
+                    <input type="int" id="f_parent_id" name="f_parent_id">
+            </div>
+                <div class="group-two">
+                    <input class="btn btn-primary" type="submit" value="Submit" name="Add_Relationship">
                     </div>
                 </form>
             </div>

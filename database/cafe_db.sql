@@ -94,7 +94,7 @@ CREATE OR REPLACE TABLE Product_Orders (
   quantity INT,
   PRIMARY KEY (product_order_id),
   FOREIGN KEY (transaction_id) REFERENCES Cafe_Transactions (transaction_id) ON DELETE SET NULL,
-  FOREIGN KEY (product_id) REFERENCES Cafe_Products (product_id) ON DELETE SET NULL
+  FOREIGN KEY (product_id) REFERENCES Cafe_Products (product_id) ON DELETE CASCADE
 );
 
 -- CREATE Foster parent and cat relationship to facilitate the M:N relationship between Foster Parents and Cats
@@ -103,7 +103,7 @@ CREATE OR REPLACE TABLE Foster_Cat_Relationships (
   cat_id INT,
   foster_parent_id INT,
   PRIMARY KEY (relationship_id),
-  FOREIGN KEY (cat_id) REFERENCES Cats (cat_id) ON DELETE SET NULL,
+  FOREIGN KEY (cat_id) REFERENCES Cats (cat_id) ON DELETE CASCADE,
   FOREIGN KEY (foster_parent_id) REFERENCES Foster_Parents (foster_parent_id) ON DELETE SET NULL
 );
 

@@ -22,9 +22,9 @@ app = Flask(__name__)
 
 # database connection info
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "cs340_"
+app.config["MYSQL_USER"] = "cs340_rutterj"
+app.config["MYSQL_PASSWORD"] = "9585"
+app.config["MYSQL_DB"] = "cs340_rutterj"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
@@ -185,86 +185,75 @@ def edit_parent(foster_parent_id):
 
 # route for foster cat relationships page
 @app.route("/foster_cat_relationships", methods=["POST", "GET"])
-def foster_cat_relationships():
-   
-     # render edit_foster_cats_relationship page passing our query data and foster parent data to the foster cat relationships template
-    return render_template("foster_cat_relationship.j2")
+def relationships():
+    if request.method == "GET":
+        # Select all data from cafe transactions table
+        query = "SELECT * FROM Foster_Cat_Relationships" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+    
+        return render_template("foster_cat_relationships.j2", relationships=data)
+    
+    if request.method == "POST":
+        if request.form.get("Add_Relationship"):
+            # Grab form input
+            parent_id = request.form["f_parent_id"]
+            cat_id = request.form["cat_id"]
 
+            # INSERT values
+            query = "INSERT INTO Foster_Cat_Relationships (foster_parent_id, cat_id) VALUES (%s, %s)"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (parent_id, cat_id))
+            mysql.connection.commit()
+
+        # redirect to cafe transactions page
+        return redirect("/foster_cat_relationships")
+   
 
 # route for delete functionality, deleting a foster cat relationship from Foster_Cat_Relationships,
 # we want to pass the 'id' value of that foster cat relationship on button click (see HTML) via the route
-@app.route("/delete_foster_cat_relationship/<int:id>")
-def delete_foster_cat_relationship(id):
+@app.route("/delete_relationship/<int:relationship_id>")
+def delete_relationship(relationship_id):
     # mySQL query to delete the foster cat relationship with our passed id
-    query = "DELETE FROM Foster_Cat_Relationships WHERE id = '%s';"
+    query = "DELETE FROM Foster_Cat_Relationships WHERE relationship_id = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (id,))
+    cur.execute(query, (relationship_id,))
     mysql.connection.commit()
 
     # redirect back to foster cat relationships page
-    return redirect("/foster_cat")
+    return redirect("/foster_cat_relationships")
 
 
 # route for edit functionality, updating the attributes of a foster cat relationship in Foster_Cat_Relationships
 # similar to our delete route, we want to the pass the 'id' value of that foster cat relationship on button click (see HTML) via the route
-@app.route("/edit_foster_cat_relationship/<int:id>", methods=["POST", "GET"])
-def edit_foster_cat_relationship(id):
+@app.route("/edit_foster_cat_relationship/<int:relationship_id>", methods=["POST", "GET"])
+def edit_foster_cat_relationship(relationship_id):
     if request.method == "GET":
         # mySQL query to grab the info of the foster cat relationship with our passed id
-        query = "SELECT * FROM Foster_Cat_Relationships WHERE id = %s" % (id)
+        query = "SELECT * FROM Foster_Cat_Relationships WHERE relationship_id = %s" % (relationship_id)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
-        # mySQL query to grab cat & foster id/name data for our dropdown
-        query2 = "SELECT cat_id, foster_parent_id FROM Foster_Cat_Relationships"
-        cur = mysql.connection.cursor()
-        cur.execute(query2)
-        foster_parent_data = cur.fetchall()
-
         # render edit_foster_cat_ page passing our query data and cat/foster data to the edit_foster_cat template
-        return render_template("edit_foster_cat.j2", data=data)
+        return render_template("edit_foster_cat_relationship.j2", foster_cat_relationships=data)
 
     # meat and potatoes of our update functionality
     if request.method == "POST":
         # fire off if user clicks the 'Edit foster cat relationship' button
         if request.form.get("Edit_Foster_Cat_Relationship"):
             # grab user form inputs
-            id = request.form["fosterCatRelationshipID"]
-            cat_id = request.form["cat_id"]
-            foster_parent_id = request.form["foster_parent_id"]
+            cat_id = request.form["cat-id"]
+            foster_parent_id = request.form["f-parent-id"]
 
-            # account for null cat_id AND foster_cat_id
-            if (cat_id == "" or cat_id == "None") and foster_parent_id == "0":
-                # mySQL query to update the attributes of foster cat relationship with our passed id value
-                query = "UPDATE Foster_Cat_Relationships SET Foster_Cat_Relationships.cat_id = %s, Foster_Cat_Relationships.foster_parent_id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
-
-            # account for null foster_parent_id
-            elif foster_parent_id == "0":
-                query = "UPDATE Foster_Cat_Relationships SET Foster_Cat_Relationships.cat_id = %s, Foster_Cat_Relationships.foster_parent_id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
-
-            # account for null cat_id
-            elif cat_id == "" or cat_id == "None":
-                query = "UPDATE Foster_Cat_Relationships SET Foster_Cat_Relationships.cat_id = %s, Foster_Cat_Relationships.foster_parent_id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
-
-            # no null inputs
-            else:
-                query = "UPDATE Foster_Cat_Relationships SET Foster_Cat_Relationships.cat_id = %s, Foster_Cat_Relationships.foster_parent_id = %s"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (cat_id, foster_parent_id))
-                mysql.connection.commit()
+            query = "UPDATE Foster_Cat_Relationships SET Foster_Cat_Relationships.cat_id = %s, Foster_Cat_Relationships.foster_parent_id = %s WHERE relationship_id = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (cat_id, foster_parent_id, relationship_id))
+            mysql.connection.commit()
 
             # redirect back to foster cat relationships page after we execute the update query
-            return redirect("/foster_cat")
+            return redirect("/foster_cat_relationships")
 
 # Route to display employees page
 @app.route("/employees", methods=["POST", "GET"])
@@ -711,8 +700,6 @@ def edit_product_order(product_order_id):
 
             return redirect("/product_orders")
 
-
-# FOSTER/CAT RELATIONSHIPS ENTITY
 
 # route to display foster cat relationships page
 
