@@ -22,9 +22,9 @@ app = Flask(__name__)
 
 # database connection info
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "cs340_"
+app.config["MYSQL_USER"] = "cs340_rutterj"
+app.config["MYSQL_PASSWORD"] = "9585"
+app.config["MYSQL_DB"] = "cs340_rutterj"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
@@ -492,7 +492,32 @@ def adoptions():
         cur.execute(query)
         data = cur.fetchall()
 
-        return render_template("adoptions.j2", adoptions=data)
+        query = "SELECT Adoptions.adoption_id as id, Adoptions.date AS Date, concat(Customers.last_name,' ', Customers.first_name) As Customer, concat(Employees.first_name, ' ', Employees.last_name) AS Employee, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS Parent, Cats.name AS Cat FROM Adoptions JOIN Customers on Adoptions.customer_id = Customers.customer_id JOIN Employees on Adoptions.employee_id = Employees.employee_id JOIN Foster_Parents on Adoptions.foster_parent_id = Foster_Parents.foster_parent_id JOIN Cats on Adoptions.cat_id = Cats.cat_id ORDER BY id ASC;;" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
+
+        query = "SELECT * FROM Customers" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cus_data = cur.fetchall()
+
+        query = "SELECT * FROM Cats" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cat_data = cur.fetchall()
+
+        query = "SELECT * FROM Foster_Parents" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        parent_data = cur.fetchall()
+
+        query = "SELECT * FROM Employees" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        emp_data = cur.fetchall()
+
+        return render_template("adoptions.j2", adoptions=data, customers = cus_data, cats=cat_data, parents = parent_data, employees=emp_data, all = all_data)
     
     if request.method == "POST":
         
@@ -500,7 +525,7 @@ def adoptions():
             # Grab form input
             customer_id = request.form["customer_id"]
             cat_id = request.form["cat_id"]
-            foster_parent_id = request.form["parent_id"]
+            foster_parent_id = request.form["foster_parent_id"]
             employee_id = request.form["employee_id"]
             date = request.form["adoption_date"]
             
@@ -535,15 +560,41 @@ def edit_adoption(adoption_id):
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
-        return render_template("edit_adoption.j2", adoptions=data)
+    
+        query = "SELECT Adoptions.adoption_id as id, Adoptions.date AS Date, concat(Customers.last_name,' ', Customers.first_name) As Customer, concat(Employees.first_name, ' ', Employees.last_name) AS Employee, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS Parent, Cats.name AS Cat FROM Adoptions JOIN Customers on Adoptions.customer_id = Customers.customer_id JOIN Employees on Adoptions.employee_id = Employees.employee_id JOIN Foster_Parents on Adoptions.foster_parent_id = Foster_Parents.foster_parent_id JOIN Cats on Adoptions.cat_id = Cats.cat_id WHERE adoption_id = %s ORDER BY id ASC;"  % (adoption_id)
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
+
+        query = "SELECT * FROM Customers" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cus_data = cur.fetchall()
+
+        query = "SELECT * FROM Cats" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cat_data = cur.fetchall()
+
+        query = "SELECT * FROM Foster_Parents" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        parent_data = cur.fetchall()
+
+        query = "SELECT * FROM Employees" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        emp_data = cur.fetchall()
+
+        return render_template("edit_adoption.j2", adoptions=data, all = all_data, employees = emp_data, parents=parent_data, cats = cat_data, customers=cus_data)
     
     if request.method == "POST":
         if request.form.get("Edit_Adoption"):
             # Grab form input
-            customer_id = request.form["customer-id"]
-            cat_id = request.form["cat-id"]
-            foster_parent_id = request.form["f-parent-id"]
-            employee_id = request.form["employee-id"]
+            customer_id = request.form["customer_id"]
+            cat_id = request.form["cat_id"]
+            foster_parent_id = request.form["foster_parent_id"]
+            employee_id = request.form["employee_id"]
             date = request.form["date"]
 
 

@@ -32,7 +32,7 @@
                 <tr>
                     <!-- Iterate through each key in the first entry to get the
                     column name -->
-                    {% for key in adoptions[0].keys() %}
+                    {% for key in all[0].keys() %}
 
                     <!-- Create a <th> tag with the key inside of it, this will be
                     our header row -->
@@ -45,7 +45,7 @@
 
                 <tbody>
                 <!-- Now, iterate through every adoption in adoptions -->
-                {% for adoption in adoptions %}
+                {% for adoption in all %}
                 <tr>
                     <!-- Then iterate through every key in the current person dictionary -->
                     {% for key in adoption.keys() %}
@@ -55,8 +55,8 @@
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
-                    <td><a href="edit_adoption/{{adoption.adoption_id}}" class ="edit-del">Edit</a></td>
-                    <td><a href="delete_adoption/{{adoption.adoption_id}}" class ="edit-del">Delete</a></td>
+                    <td><a href="edit_adoption/{{adoption.id}}" class ="edit-del">Edit</a></td>
+                    <td><a href="delete_adoption/{{adoption.id}}" class ="edit-del">Delete</a></td>
                 </tr>
                 {% endfor %}
             </table>
@@ -65,19 +65,59 @@
             <h2>Add Adoption</h2>
             <div class="form-region">
                 <form id = "insertAdoption" action = "/adoptions" method = "post">
-                    
                     <div class="group-one">
-                    <label for="customer-id">Customer ID:</label>
-                    <input type="int" id="customer_id" name="customer_id">
 
-                    <label for="cat-id">Cat ID:</label><br>
-                    <input type="int" id="cat_id" name="cat_id">
+                    <label for="customer">Customer:</label>
+                    <select class="form-control" id="customer_id" name="customer_id" pattern="[0-4]{1}" placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for customer in customers %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if customer['customer_id'] == adoptions[0].customer %}
+                                    <option value="{{ customer['customer_id'] }}" selected> {{customer['first_name']}} {{customer['last_name']}}</option>
+                                {% else %}
+                                    <option value="{{ customer['customer_id'] }}"> {{customer['first_name']}} {{customer['last_name']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
 
-                    <label for="f-parent-id">Foster Parent ID:</label>
-                    <input type="int" id="parent_id" name="parent_id">
+                    <label for="cat">Cat:</label>
+                    <select class="form-control" id="cat_id" name="cat_id" pattern="[0-4]{1}" placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for cat in cats %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if cat['cat_id'] == adoptions[0].cat %}
+                                    <option value="{{ cat['cat_id'] }}" selected> {{cat['name']}}</option>
+                                {% else %}
+                                    <option value="{{ cat['cat_id'] }}"> {{cat['name']}} </option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
 
-                    <label for="employee-id">Employee ID:</label><br>
-                    <input type="int" id="employee_id" name="employee_id">
+                    <label for="Parent">Foster Parent:</label>
+                    <select class="form-control" id="foster_parent_id" name="foster_parent_id" pattern="[0-4]{1}" placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for parent in parents %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if parent['foster_parent_id'] == adoptions[0].parent %}
+                                    <option value="{{ parent['foster_parent_id'] }}" selected> {{parent['first_name']}} {{parent['last_name']}}</option>
+                                {% else %}
+                                    <option value="{{ parent['foster_parent_id'] }}"> {{parent['first_name']}} {{parent['last_name']}} </option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
+
+                    <label for="Employee">Employee:</label>
+                    <select class="form-control" id="employee_id" name="employee_id" pattern="[0-4]{1}" placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for employee in employees %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if employee['employee_id'] == adoptions[0].employee %}
+                                    <option value="{{ employee['employee_id'] }}" selected> {{employee['first_name']}} {{employee['last_name']}}</option>
+                                {% else %}
+                                    <option value="{{ employee['employee_id'] }}"> {{employee['first_name']}} {{employee['last_name']}} </option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
 
                     <label for="adoption-date">Date:</label>
                     <input type="date" id="adoption_date" name="adoption_date">
