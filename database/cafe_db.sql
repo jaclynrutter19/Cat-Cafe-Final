@@ -144,9 +144,7 @@ VALUES ('Vanilla latte', 3.75, 110, 'beverage'),
 
 -- INSERT Adoption transactions into Adoptions table
 INSERT INTO Adoptions (customer_id, cat_id, foster_parent_id, employee_id, date)
-VALUES ((SELECT customer_id FROM Customers WHERE customer_id = 2), (SELECT cat_id FROM Cats WHERE cat_id = 3), (SELECT foster_parent_id FROM Foster_Parents WHERE foster_parent_id = 2), (SELECT employee_id FROM Employees WHERE employee_id = 1), '2023-10-15'),
-((SELECT customer_id FROM Customers WHERE customer_id = 1), (SELECT cat_id FROM Cats WHERE cat_id = 4), (SELECT foster_parent_id FROM Foster_Parents WHERE foster_parent_id = 1), (SELECT employee_id FROM Employees WHERE employee_id = 2), '2023-10-20'),
-((SELECT customer_id FROM Customers WHERE customer_id = 3), (SELECT cat_id FROM Cats WHERE cat_id = 2), (SELECT foster_parent_id FROM Foster_Parents WHERE foster_parent_id = 3), (SELECT employee_id FROM Employees WHERE employee_id = 3), '2023-09-22');
+VALUES (1, 9, 1, 1, '2023-10-15'), (2, 10, 1, 1, '2023-5-10');
 
 -- INSERT cafe transaction into Cafe_Transactions table
 INSERT INTO Cafe_Transactions (customer_id, employee_id, order_date, total_price)

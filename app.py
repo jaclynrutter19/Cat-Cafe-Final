@@ -142,10 +142,6 @@ def foster_parents():
             cur.execute(query, (fname, lname, email, phone))
             mysql.connection.commit()
         
-        if request.form.get("Edit_Parent"):
-            foster_parent_id = request.form["foster_parent_id"]
-            return redirect("/edit_foster_parent/foster_parent_id")
-
         # redirect to cat page
         return redirect("/foster_parents")
 
@@ -161,16 +157,29 @@ def delete_foster_parent(foster_parent_id):
      # redirect to foster_parents page
     return redirect("/foster_parents")
 
-@app.route("/edit_foster_parent/<int:foster_parent_id>", methods=["POST", "GET"])
-def edit_foster_parent(foster_parent_id):
+@app.route("/edit_parent/<int:foster_parent_id>", methods=["POST", "GET"])
+def edit_parent(foster_parent_id):
     if request.method == "GET":
         query = "SELECT * FROM Foster_Parents WHERE foster_parent_id = '%s';"
         cur = mysql.connection.cursor()
         cur.execute(query, (foster_parent_id,))
         mysql.connection.commit()
+        data = cur.fetchall()
+        return render_template("/edit_foster_parent.j2", parents=data)
+    if request.method == "POST":
+        if request.form.get("edit_parent"):
+            # Grab form input
+            fname = request.form["fname"]
+            lname = request.form["lname"]
+            email = request.form["email"]
+            phone = request.form["phone"]
 
-     # redirect to foster_parents page
-    return redirect("/edit_foster_parent")
+            query = "UPDATE Foster_Parents SET Foster_Parents.first_name = %s, Foster_Parents.last_name = %s, Foster_Parents.email = %s, Foster_Parents.phone = %s WHERE foster_parent_id = %s"
+            cur = mysql.connection.cursor()ç
+            cur.execute(query, (fname, lname, email, phone, foster_parent_id))
+            mysql.connection.commit()
+
+            return redirect("/foster_parents")
     
 
 
@@ -484,14 +493,16 @@ def edit_cafe_product(product_id):
 
 # route to display adoptions page
 @app.route("/adoptions", methods=["POST", "GET"])
+
 def adoptions():
+
     if request.method == "GET":
         # Select all data from adoptions table
         query = "SELECT * FROM Adoptions" 
         cur = mysql.connect.cursor()
         cur.execute(query)
         data = cur.fetchall()
-    
+
         return render_template("adoptions.j2", adoptions=data)
     
     if request.method == "POST":

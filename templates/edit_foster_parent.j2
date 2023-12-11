@@ -4,29 +4,91 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     <title>Cat Cafe</title>
 </head>
 <body>
     <header>
         <p class="company"><a href="/">Cat Cafe</a></p>
         <nav>
-             <a href="cats">Cats</a>
-            <a href="cafe_products">Cafe Products</a>
-            <a href="employees">Employees</a>
-            <a href="customers">Customers</a>
-            <a href="foster_parents">Foster Parents</a>
-            <a href="adoptions">Adoptions</a>
-            <a href="cafe_transactions">Cafe Transactions</a>
-            <a href="product_orders">Product Orders</a>
-            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
+             <a href="/cats">Cats</a>
+            <a href="/cafe_products">Cafe Products</a>
+            <a href="/employees">Employees</a>
+            <a href="/customers">Customers</a>
+            <a href="/foster_parents">Foster Parents</a>
+            <a href="/adoptions">Adoptions</a>
+            <a href="/cafe_transactions">Cafe Transactions</a>
+            <a href="/product_orders">Product Orders</a>
+            <a href="/foster_cat_relationships">Foster/Cat Relationships</a>
         </nav>
     </header>
     <main>
 
-    </main>
-    <footer>
-        <p>&#169; 2023 Olivia Russell & Jaclyn Rutter</p>
-    </footer>
+        <div class="content-stripe hero-stripe">
+            <h1>Edit Parent</h1>
+        </div>
+        <div class="content-stripe table-stripe">
+            <table>
+            <thead>
+                <tr>
+                  <!-- Iterate through each key in the first entry to get the
+                    column name -->
+                    {% for key in parents[0].keys() %}
+
+                    <!-- Create a <th> tag with the key inside of it, this will be
+                    our header row -->
+                    <th>{{ key }}</th>
+
+                    <!-- End of this for loop -->
+                    {% endfor %}
+                </tr>
+                <tbody>
+        
+                <!-- Now, iterate through every cat in cats -->
+                {% for parent in parents %}
+                <tr>
+                    <!-- Then iterate through every key in the current person dictionary -->
+                    {% for key in parent.keys() %}
+
+                    <!-- Create a <td> element with the value of that key in it -->
+                    <td>{{parent[key]}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+
+        <div class="content-stripe add-stripe">
+            <div class="form-region">
+            <form id = "edit_parent" action = "/edit_parent/{{parents[0].foster_parent_id}}" method = "post">
+            <div class="group-one">
+
+                <label for="fname">First Name:</label><br>
+                    <input type="text" class = "form-control" id="fname" name="fname" 
+                    placeholder = "" value = "{{parents[0].first_name}}" required>
+
+                <label for="lname">Last Name:</label><br>
+                    <input type="text" class = "form-control" id="lname" name="lname" 
+                    placeholder = "" value = "{{parents[0].last_name}}" required>
+
+                <label for="email">Email:</label><br>
+                    <input type="text" class = "form-control" id="email" name="email" 
+                    placeholder = "" value = "{{parents[0].email}}" required>
+                
+                <label for="phone">Phone:</label><br>
+                    <input type="text" class = "form-control" id="phone" name="phone" 
+                    placeholder = "" value = "{{parents[0].phone}}" required>     
+            </div>
+
+            </div>
+
+                <div class="group-three">
+                    <input class="btn btn-primary" type="submit" value="Save" name="edit_parent">
+                    <a href="/foster_parents" class ="btn">Cancel</a>
+                </div>
+
+                </form>
+            </div>
+        </div>     
 </body>
 </html>

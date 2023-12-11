@@ -101,7 +101,7 @@ DELETE FROM Cafe_Products WHERE product_id = :product_id_selected;
 SELECT * FROM Adoptions;
 
 -- Create a new Adoption
-INSERT INTO Adoptions(customer_id, cat_id, foster_parent_id, employee_id,date)
+INSERT INTO Adoptions(customer_id, cat_id, foster_parent_id, employee_id, date)
 VALUES(:customer_id_input, :cat_id_input, :foster_parent_id_input, :employee_id, :date_input);
 
 -- Update Adoptions

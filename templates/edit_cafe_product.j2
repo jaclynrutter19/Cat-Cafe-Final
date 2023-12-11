@@ -57,37 +57,6 @@
             </table>
 
             </div>
-        <div class="content-stripe add-stripe">
-            <div class="form-region">
-                <form id = "edit_cafe_product" action = "/edit_cafe_product/{{cafe_products[0].product_id}}" method = "post">
-                    <div class="group-one">
-
-                    <label for="name">Name:</label><br>
-                    <input type="text" class = "form-control" id="name" name="name" 
-                    placeholder = "" value = "{{cafe_products[0].name}}" required><br>
-
-                    <label for="price">Price</label><br>
-                    <input type="int"  value = "{{cafe_products[0].price}}" id="price" name="price">
-
-                    <label for="quantity">Quantity:</label><br>
-                    <input type="int" id="quantity"  value = "{{cafe_products[0].quantity}}" name="quantity">
-
-                    <label for="product_type">Category:</label><br>
-                     <select class = "form-control" id = "product_type"  name="product_type" required>
-                        <option value="" selected disabled hidden>Choose here</option>
-                        <option value="Food">Food</option>
-                        <option value="Beverage">Beverage</option>
-                        <option value="Merch">Merch</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    </div>
-
-                    <div class="group-three">
-                        <input class="btn btn-primary" type="submit" value="Save" name="edit_cafe_product">
-                        <a href="/cafe_products" class ="btn">Cancel</a>
-                        </div>
-                </form>
-            </div>
-        </div>     
+                            <td><a href="edit_parent/{{foster_parent.foster_parent_id}}" class ="edit-del">Edit</a></td>
 </body>
 </html>

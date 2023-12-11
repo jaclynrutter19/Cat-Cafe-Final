@@ -54,6 +54,7 @@
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
+                    <td><a href="edit_parent/{{foster_parent.foster_parent_id}}" class ="edit-del">Edit</a></td>
                     <td><a href="delete_foster_parent/{{foster_parent.foster_parent_id}}" class ="edit-del">Delete</a></td>
                 </tr>
                 {% endfor %}
@@ -83,25 +84,9 @@
                     <div class="group-three">
                         <input class="btn btn-primary" type="submit" value="Submit" name="Add_Parent">
                     </div>
-
                 </form>
             </div>
-        <div class="content-stripe update-stripe">
-            <h2>Edit Parent</h2>
-            <!-- Iterate through each parent to populate dropdown --!>
-            <form form id = "foster_parent_id" action = "/foster_parents" method = "post">
-            <select> 
-                {% for parent in foster_parents %}
-                    <option value = "{{parent.foster_parent_id}}" > {{parent.first_name}} {{parent.last_name}}</option>
-                {% endfor %}
-            </select>
-            <div class="group-three">
-                    <input class="btn btn-primary" type="submit" value="Submit" name="Edit_Parent">
-            </div>
-            </form>
-        </div>
         
-
     </main>
     <footer>
         <p>&#169; 2023 Olivia Russell & Jaclyn Rutter</p>
