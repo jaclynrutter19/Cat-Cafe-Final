@@ -22,9 +22,9 @@ app = Flask(__name__)
 
 # database connection info
 app.config["MYSQL_HOST"] = "classmysql.engr.oregonstate.edu"
-app.config["MYSQL_USER"] = "cs340_rutterj"
-app.config["MYSQL_PASSWORD"] = "9585"
-app.config["MYSQL_DB"] = "cs340_rutterj"
+app.config["MYSQL_USER"] = "cs340_"
+app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_DB"] = "cs340_"
 app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 mysql = MySQL(app)
@@ -175,7 +175,7 @@ def edit_parent(foster_parent_id):
             phone = request.form["phone"]
 
             query = "UPDATE Foster_Parents SET Foster_Parents.first_name = %s, Foster_Parents.last_name = %s, Foster_Parents.email = %s, Foster_Parents.phone = %s WHERE foster_parent_id = %s"
-            cur = mysql.connection.cursor()ç
+            cur = mysql.connection.cursor()
             cur.execute(query, (fname, lname, email, phone, foster_parent_id))
             mysql.connection.commit()
 
@@ -509,11 +509,11 @@ def adoptions():
         
         if request.form.get("Add_Adoption"):
             # Grab form input
-            customer_id = request.form["customer-id"]
-            cat_id = request.form["cat-id"]
-            foster_parent_id = request.form["f-parent-id"]
-            employee_id = request.form["employee-id"]
-            date = request.form["date"]
+            customer_id = request.form["customer_id"]
+            cat_id = request.form["cat_id"]
+            foster_parent_id = request.form["parent_id"]
+            employee_id = request.form["employee_id"]
+            date = request.form["adoption_date"]
             
             # INSERT values
             query = "INSERT INTO Adoptions (customer_id, cat_id, foster_parent_id, employee_id, date) VALUES (%s, %s, %s, %s, %s)"
@@ -560,7 +560,7 @@ def edit_adoption(adoption_id):
 
             query = "UPDATE Adoptions SET Adoptions.customer_id = %s, Adoptions.cat_id = %s, Adoptions.foster_parent_id = %s, Adoptions.employee_id = %s, Adoptions.date = %s WHERE adoption_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (customer_id, cat_id, foster_parent_id, employee_id, date))
+            cur.execute(query, (customer_id, cat_id, foster_parent_id, employee_id, date, adoption_id))
             mysql.connection.commit()
 
 
@@ -693,7 +693,7 @@ def edit_product_order(product_order_id):
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
-        return render_template("edit_product_order.j2", product_order=data)
+        return render_template("edit_product_order.j2", product_orders=data)
     
     if request.method == "POST":
         if request.form.get("Edit_Product_Order"):
@@ -705,7 +705,7 @@ def edit_product_order(product_order_id):
 
             query = "UPDATE Product_Orders SET Product_Orders.transaction_id = %s, Product_Orders.product_id = %s, Product_Orders.quantity = %s WHERE product_order_id = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (transaction_id, product_id, quantity))
+            cur.execute(query, (transaction_id, product_id, quantity, product_order_id))
             mysql.connection.commit()
 
 

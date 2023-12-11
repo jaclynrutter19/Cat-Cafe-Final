@@ -64,22 +64,27 @@
         <div class="content-stripe add-stripe">
             <h2>Add Adoption</h2>
             <div class="form-region">
-                <form>
+                <form id = "insertAdoption" action = "/adoptions" method = "post">
+                    
                     <div class="group-one">
-                    <label for="customer-id">Customer ID:</label><br>
-                    <input type="text" id="customer-id" name="customer-id">
+                    <label for="customer-id">Customer ID:</label>
+                    <input type="int" id="customer_id" name="customer_id">
+
                     <label for="cat-id">Cat ID:</label><br>
-                    <input type="text" id="cat-id" name="cat-id">
-                    <label for="f-parent-id">Foster Parent ID:</label><br>
-                    <input type="text" id="f-parent-id" name="f-parent-id">
+                    <input type="int" id="cat_id" name="cat_id">
+
+                    <label for="f-parent-id">Foster Parent ID:</label>
+                    <input type="int" id="parent_id" name="parent_id">
+
                     <label for="employee-id">Employee ID:</label><br>
-                    <input type="text" id="employee-id" name="employee-id">
-                    <label for="adoption-date">Date:</label><br>
-                    <input type="date" id="adoption-date" name="adoption-date"><br>
+                    <input type="int" id="employee_id" name="employee_id">
+
+                    <label for="adoption-date">Date:</label>
+                    <input type="date" id="adoption_date" name="adoption_date">
                     </div>
+
                     <div class="group-three">
-                        <input class="btn" type="submit" value="Save">
-                        <input class="btn" type="button" value="Cancel">
+                        <input class="btn" type="submit" value="Save" name = "Add_Adoption">
                         </div>
                 </form>
             </div>

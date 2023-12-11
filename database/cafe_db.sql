@@ -68,10 +68,10 @@ CREATE OR REPLACE TABLE Adoptions (
   employee_id INT,
   date DATE,
   PRIMARY KEY (adoption_id),
-  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id),
-  FOREIGN KEY (cat_id) REFERENCES Cats (cat_id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id) ON DELETE SET NULL,
+  FOREIGN KEY (cat_id) REFERENCES Cats (cat_id) ON DELETE SET NULL,
   FOREIGN KEY (foster_parent_id) REFERENCES Foster_Parents (foster_parent_id) ON DELETE SET NULL,
-  FOREIGN KEY (employee_id) REFERENCES Employees (employee_id)
+  FOREIGN KEY (employee_id) REFERENCES Employees (employee_id) ON DELETE SET NULL
 );
 
 -- CREATE Cafe_Transactions Table
@@ -82,7 +82,7 @@ CREATE OR REPLACE TABLE Cafe_Transactions (
   order_date DATE,
   total_price DECIMAL(19,2),
   PRIMARY KEY (transaction_id),
-  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id) ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id) ON DELETE SET NULL,
   FOREIGN KEY (employee_id) REFERENCES Employees (employee_id) ON DELETE SET NULL
 );
 
@@ -93,8 +93,8 @@ CREATE OR REPLACE TABLE Product_Orders (
   product_id INT,
   quantity INT,
   PRIMARY KEY (product_order_id),
-  FOREIGN KEY (transaction_id) REFERENCES Cafe_Transactions (transaction_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_id) REFERENCES Cafe_Products (product_id) ON DELETE CASCADE
+  FOREIGN KEY (transaction_id) REFERENCES Cafe_Transactions (transaction_id) ON DELETE SET NULL,
+  FOREIGN KEY (product_id) REFERENCES Cafe_Products (product_id) ON DELETE SET NULL
 );
 
 -- CREATE Foster parent and cat relationship to facilitate the M:N relationship between Foster Parents and Cats
@@ -103,8 +103,8 @@ CREATE OR REPLACE TABLE Foster_Cat_Relationships (
   cat_id INT,
   foster_parent_id INT,
   PRIMARY KEY (relationship_id),
-  FOREIGN KEY (cat_id) REFERENCES Cats (cat_id) ON DELETE CASCADE,
-  FOREIGN KEY (foster_parent_id) REFERENCES Foster_Parents (foster_parent_id) ON DELETE CASCADE
+  FOREIGN KEY (cat_id) REFERENCES Cats (cat_id) ON DELETE SET NULL,
+  FOREIGN KEY (foster_parent_id) REFERENCES Foster_Parents (foster_parent_id) ON DELETE SET NULL
 );
 
 -- Inserting data into entities
@@ -144,7 +144,9 @@ VALUES ('Vanilla latte', 3.75, 110, 'beverage'),
 
 -- INSERT Adoption transactions into Adoptions table
 INSERT INTO Adoptions (customer_id, cat_id, foster_parent_id, employee_id, date)
-VALUES (1, 9, 1, 1, '2023-10-15'), (2, 10, 1, 1, '2023-5-10');
+VALUES ((SELECT customer_id FROM Customers WHERE customer_id = 2), (SELECT cat_id FROM Cats WHERE cat_id = 3), (SELECT foster_parent_id FROM Foster_Parents WHERE foster_parent_id = 2), (SELECT employee_id FROM Employees WHERE employee_id = 1), '2023-10-15'),
+((SELECT customer_id FROM Customers WHERE customer_id = 1), (SELECT cat_id FROM Cats WHERE cat_id = 4), (SELECT foster_parent_id FROM Foster_Parents WHERE foster_parent_id = 1), (SELECT employee_id FROM Employees WHERE employee_id = 2), '2023-10-20'),
+((SELECT customer_id FROM Customers WHERE customer_id = 3), (SELECT cat_id FROM Cats WHERE cat_id = 2), (SELECT foster_parent_id FROM Foster_Parents WHERE foster_parent_id = 3), (SELECT employee_id FROM Employees WHERE employee_id = 3), '2023-09-22');
 
 -- INSERT cafe transaction into Cafe_Transactions table
 INSERT INTO Cafe_Transactions (customer_id, employee_id, order_date, total_price)

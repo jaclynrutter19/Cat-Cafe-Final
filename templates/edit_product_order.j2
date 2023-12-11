@@ -11,15 +11,15 @@
     <header>
         <p class="company"><a href="/">Cat Cafe</a></p>
         <nav>
-             <a href="cats">Cats</a>
-            <a href="cafe_products">Cafe Products</a>
-            <a href="employees">Employees</a>
-            <a href="customers">Customers</a>
-            <a href="foster_parents">Foster Parents</a>
-            <a href="adoptions">Adoptions</a>
-            <a href="cafe_transactions">Cafe Transactions</a>
-            <a href="product_orders">Product Orders</a>
-            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
+             <a href="/cats">Cats</a>
+            <a href="/cafe_products">Cafe Products</a>
+            <a href="/employees">Employees</a>
+            <a href="/customers">Customers</a>
+            <a href="/foster_parents">Foster Parents</a>
+            <a href="/adoptions">Adoptions</a>
+            <a href="/cafe_transactions">Cafe Transactions</a>
+            <a href="/product_orders">Product Orders</a>
+            <a href="/foster_cat_relationships">Foster/Cat Relationships</a>
         </nav>
     </header>
     <main>
@@ -71,6 +71,12 @@
 
                     <label for="quantity">Quantity:</label><br>
                     <input type="int" id="quantity"  value = "{{product_orders[0].quantity}}"name="quantity">
+                    </div>
+                    
+                    <div class="group-three">
+                        <input class="btn btn-primary" type="submit" value="Save" name="Edit_Product_Order">
+                        <a href="/product_orders" class ="btn btn-primary">Cancel</a>
+                    </div>
                 </form>
             </div>
         </div>     

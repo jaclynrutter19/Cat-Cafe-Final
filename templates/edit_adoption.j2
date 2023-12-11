@@ -11,15 +11,15 @@
     <header>
         <p class="company"><a href="/">Cat Cafe</a></p>
         <nav>
-             <a href="cats">Cats</a>
-            <a href="cafe_products">Cafe Products</a>
-            <a href="employees">Employees</a>
-            <a href="customers">Customers</a>
-            <a href="foster_parents">Foster Parents</a>
-            <a href="adoptions">Adoptions</a>
-            <a href="cafe_transactions">Cafe Transactions</a>
-            <a href="product_orders">Product Orders</a>
-            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
+             <a href="/cats">Cats</a>
+            <a href="/cafe_products">Cafe Products</a>
+            <a href="/employees">Employees</a>
+            <a href="/customers">Customers</a>
+            <a href="/foster_parents">Foster Parents</a>
+            <a href="/adoptions">Adoptions</a>
+            <a href="/cafe_transactions">Cafe Transactions</a>
+            <a href="/product_orders">Product Orders</a>
+            <a href="/foster_cat_relationships">Foster/Cat Relationships</a>
         </nav>
     </header>
     <main>
@@ -63,11 +63,11 @@
                     <div class="group-one">
 
                     <label for="customer-id">Customer ID:</label><br>
-                    <input type="text" class = "form-control" id="customer-id" name="customer-id" pattern = "[A-Za-z]{1,}"
+                    <input type="text" class = "form-control" id="customer-id" name="customer-id" 
                     placeholder = "" value = "{{adoptions[0].customer_id}}" required><br>
 
                     <label for="cat-id">Cat ID:</label><br>
-                    <input type="date"  value = "{{adoptions[0].cat_id}}" id="cat-id" name="cat-id">
+                    <input type="int"  value = "{{adoptions[0].cat_id}}" id="cat-id" name="cat-id">
 
                     <label for="f-parent-id">Foster Parent ID:</label><br>
                     <input type="int" id="f-parent-id"  value = "{{adoptions[0].foster_parent_id}}"name="f-parent-id">
@@ -76,11 +76,11 @@
                     <input type="text" id="employee-id"  value = "{{adoptions[0].employee_id}}" name="employee-id">
 
                     <label for="date">Date:</label><br>
-                    <input type="int" id="date"  value = "{{adoptions[0].date}}"name="date">
+                    <input type="date" id="date"  value = "{{adoptions[0].date}}" name="date">
                     </div>
-                    <div class="group-two">
-                        <input class="btn" type="save" value="Save">
-                        <input class="btn" type="button" value="Cancel">
+                    <div class="group-three">
+                        <input class="btn btn-primary" type="submit" value="Save" name="Edit_Adoption">
+                        <a href="/adoptions" class ="btn btn-primary">Cancel</a>
                     </div>
                 </form>
             </div>
