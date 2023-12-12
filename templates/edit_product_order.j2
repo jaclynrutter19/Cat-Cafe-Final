@@ -70,7 +70,7 @@
                     <input type="int"  value = "{{product_orders[0].product_id}}" id="product-id" name="product-id">
 
                     <label for="quantity">Quantity:</label><br>
-                    <input type="int" id="quantity"  value = "{{product_orders[0].quantity}}"name="quantity">
+                    <input type="int" id="quantity"  value = "{{product_orders[0].quantity}}"name="quantity" pattern="^[0-9]*$">
                     </div>
                     
                     <div class="group-three">
