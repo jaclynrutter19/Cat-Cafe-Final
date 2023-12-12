@@ -72,12 +72,12 @@
                     placeholder = "" value = "{{parents[0].last_name}}" required>
 
                 <label for="email">Email:</label><br>
-                    <input type="text" class = "form-control" id="email" name="email" 
-                    placeholder = "" value = "{{parents[0].email}}" required>
+                    <input type="email" class = "form-control" id="email" name="email" 
+                    placeholder = "" value = "{{parents[0].email}}" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
                 
                 <label for="phone">Phone:</label><br>
-                    <input type="text" class = "form-control" id="phone" name="phone" 
-                    placeholder = "" value = "{{parents[0].phone}}" required>     
+                    <input type="tel" class = "form-control" id="phone" name="phone" 
+                    placeholder = "" value = "{{parents[0].phone}}" pattern="[0-9]{10}" required>     
             </div>
 
             </div>

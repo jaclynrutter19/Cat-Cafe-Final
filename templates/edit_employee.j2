@@ -70,15 +70,15 @@
                     <input type="text"  value = "{{employees[0].last_name}}" id="lname" name="lname">
 
                     <label for="email">Email:</label><br>
-                    <input type="text" id="email"  value = "{{employees[0].email}}"name="email">
+                    <input type="email" id="email"  value = "{{employees[0].email}}"name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
 
                     <label for="phone">Phone:</label><br>
-                    <input type="text" id="phone"  value = "{{employees[0].phone}}" name="phone">
+                    <input type="tel" id="phone"  value = "{{employees[0].phone}}" name="phone" pattern="[0-9]{10}">
                     </div>
                     <div class="group-two">
 
                     <label for="salary">Salary:</label><br>
-                    <input type="text" id="salary"  value = "{{employees[0].hourly_salary}}" name="salary">
+                    <input type="text" id="salary"  value = "{{employees[0].hourly_salary}}" name="salary" pattern="^[0-9]*\.?[0-9]+$">
                     </div>
 
                     <div class="group-three">
