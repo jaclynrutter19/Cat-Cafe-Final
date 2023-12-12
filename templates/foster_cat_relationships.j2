@@ -32,7 +32,7 @@
                 <tr>
                   <!-- Iterate through each key in the first entry to get the
                     column name -->
-                    {% for key in relationships[0].keys() %}
+                    {% for key in all[0].keys() %}
 
                     <!-- Create a <th> tag with the key inside of it, this will be
                     our header row -->
@@ -44,7 +44,7 @@
                 <tbody>
         
                 <!-- Now, iterate through every relationship in foster cat relationships -->
-                {% for relationship in relationships %}
+                {% for relationship in all %}
                 <tr>
                     <!-- Then iterate through every key in the current person dictionary -->
                     {% for key in relationship.keys() %}
@@ -54,8 +54,8 @@
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
-                    <td><a href="edit_foster_cat_relationship/{{relationship.relationship_id}}" class ="edit-del">Edit</a></td>
-                    <td><a href="delete_relationship/{{relationship.relationship_id}}" class ="edit-del">Delete</a></td>
+                    <td><a href="edit_foster_cat_relationship/{{relationship.RelationshipID}}" class ="edit-del">Edit</a></td>
+                    <td><a href="delete_relationship/{{relationship.RelationshipID}}" class ="edit-del">Delete</a></td>
                 </tr>
                 {% endfor %}
                 </table>
@@ -65,13 +65,33 @@
             <h2>Add Cat</h2>
             <div class="form-region">
                 <form id = "insertFosterCatRelationship" action = "/foster_cat_relationships" method = "post">
+                    
                     <div class="group-one">
-                    <label for="cat_id">Cat ID:</label><br>
-                    <input type="int" class = "form-control" id="cat_id" name="cat_id"
-                    placeholder = "" required><br>
+                    <label for="cat_id">Cat:</label>
+                    <select class="form-control" id="cat_id" name="cat_id"  placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for cat in cats %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if cat['cat_id'] == relationships[0].cat_id %}
+                                    <option value="{{ cat['cat_id'] }}"> {{cat['name']}} </option>
+                                {% else %}
+                                    <option value="{{ cat['cat_id'] }}"> {{cat['name']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
 
-                    <label for="f_parent_id">Foster Parent ID:</label><br>
-                    <input type="int" id="f_parent_id" name="f_parent_id">
+                    <label for="foster_parent_id">Parent:</label>
+                    <select class="form-control" id="foster_parent_id" name="foster_parent_id"  placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for parent in parents %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if parent['foster_parent_id'] == relationships[0].foster_parent_id %}
+                                    <option value="{{ parent['foster_parent_id'] }}" s> {{parent['first_name']}} {{parent['last_name']}}</option>
+                                {% else %}
+                                    <option value="{{ parent['foster_parent_id'] }}"> {{parent['first_name']}} {{parent['last_name']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
             </div>
                 <div class="group-two">
                     <input class="btn btn-primary" type="submit" value="Submit" name="Add_Relationship">

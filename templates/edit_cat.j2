@@ -69,7 +69,7 @@
                     <input type="date"  value = "{{cats[0].date_of_birth}}" id="dob" name="dob">
 
                     <label for="weight">Weight:</label><br>
-                    <input type="int" id="weight"  value = "{{cats[0].weight}}"name="weight">
+                    <input type="int" id="weight"  value = "{{cats[0].weight}}"name="weight" pattern="^[0-9]*\.?[0-9]+$">
 
                     <label for="color">Color:</label>
                     <input type="text" id="color"  value = "{{cats[0].color}}" name="color">

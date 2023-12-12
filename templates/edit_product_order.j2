@@ -32,7 +32,7 @@
                 <tr>
                   <!-- Iterate through each key in the first entry to get the
                     column name -->
-                    {% for key in product_orders[0].keys() %}
+                    {% for key in all[0].keys() %}
 
                     <!-- Create a <th> tag with the key inside of it, this will be
                     our header row -->
@@ -44,7 +44,7 @@
                 <tbody>
         
                 <!-- Now, iterate through every product order in product orders -->
-                {% for product_order in product_orders %}
+                {% for product_order in all %}
                 <tr>
                     <!-- Then iterate through every key in the current person dictionary -->
                     {% for key in product_order.keys() %}
@@ -66,8 +66,18 @@
                     <input type="int" class = "form-control" id="transaction-id" name="transaction-id"
                     placeholder = "" value = "{{product_orders[0].transaction_id}}" required><br>
 
-                    <label for="product-id">Product ID:</label><br>
-                    <input type="int"  value = "{{product_orders[0].product_id}}" id="product-id" name="product-id">
+                    <label for="product_id">Product:</label>
+                    <select class="form-control" id="product_id" name="product_id"  placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for product in products %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if product['product_id'] == product_orders[0].product_id %}
+                                    <option value="{{ product['product_id'] }}" selected> {{product['name']}} </option>
+                                {% else %}
+                                    <option value="{{ product['product_id'] }}"> {{product['name']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
 
                     <label for="quantity">Quantity:</label><br>
                     <input type="int" id="quantity"  value = "{{product_orders[0].quantity}}"name="quantity">

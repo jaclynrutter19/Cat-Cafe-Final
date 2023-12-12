@@ -192,13 +192,28 @@ def relationships():
         cur = mysql.connect.cursor()
         cur.execute(query)
         data = cur.fetchall()
+
+        query = "SELECT Foster_Cat_Relationships.relationship_id As RelationshipID, Cats.name as Cat, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS FosterParent FROM Foster_Cat_Relationships JOIN Cats on Foster_Cat_Relationships.cat_id=Cats.cat_id JOIN Foster_Parents ON Foster_Cat_Relationships.foster_parent_id=Foster_Parents.foster_parent_id ORDER BY relationship_id" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
+
+        query = "SELECT * FROM Cats" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cat_data = cur.fetchall()
+
+        query = "SELECT * FROM Foster_Parents" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        parent_data = cur.fetchall()
     
-        return render_template("foster_cat_relationships.j2", relationships=data)
+        return render_template("foster_cat_relationships.j2", relationships=data, cats=cat_data, parents=parent_data, all=all_data)
     
     if request.method == "POST":
         if request.form.get("Add_Relationship"):
             # Grab form input
-            parent_id = request.form["f_parent_id"]
+            parent_id = request.form["foster_parent_id"]
             cat_id = request.form["cat_id"]
 
             # INSERT values
@@ -236,16 +251,31 @@ def edit_foster_cat_relationship(relationship_id):
         cur.execute(query)
         data = cur.fetchall()
 
+        query = "SELECT Foster_Cat_Relationships.relationship_id As RelationshipID, Cats.name as Cat, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS FosterParent FROM Foster_Cat_Relationships JOIN Cats on Foster_Cat_Relationships.cat_id=Cats.cat_id JOIN Foster_Parents ON Foster_Cat_Relationships.foster_parent_id=Foster_Parents.foster_parent_id WHERE relationship_id = %s" % (relationship_id)
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
+
+        query = "SELECT * FROM Cats" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cat_data = cur.fetchall()
+
+        query = "SELECT * FROM Foster_Parents" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        parent_data = cur.fetchall()
+
         # render edit_foster_cat_ page passing our query data and cat/foster data to the edit_foster_cat template
-        return render_template("edit_foster_cat_relationship.j2", foster_cat_relationships=data)
+        return render_template("edit_foster_cat_relationship.j2", relationships=data, all=all_data, cats=cat_data, parents=parent_data)
 
     # meat and potatoes of our update functionality
     if request.method == "POST":
         # fire off if user clicks the 'Edit foster cat relationship' button
         if request.form.get("Edit_Foster_Cat_Relationship"):
             # grab user form inputs
-            cat_id = request.form["cat-id"]
-            foster_parent_id = request.form["f-parent-id"]
+            cat_id = request.form["cat_id"]
+            foster_parent_id = request.form["foster_parent_id"]
 
             query = "UPDATE Foster_Cat_Relationships SET Foster_Cat_Relationships.cat_id = %s, Foster_Cat_Relationships.foster_parent_id = %s WHERE relationship_id = %s"
             cur = mysql.connection.cursor()
@@ -492,7 +522,7 @@ def adoptions():
         cur.execute(query)
         data = cur.fetchall()
 
-        query = "SELECT Adoptions.adoption_id as id, Adoptions.date AS Date, concat(Customers.last_name,' ', Customers.first_name) As Customer, concat(Employees.first_name, ' ', Employees.last_name) AS Employee, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS Parent, Cats.name AS Cat FROM Adoptions JOIN Customers on Adoptions.customer_id = Customers.customer_id JOIN Employees on Adoptions.employee_id = Employees.employee_id JOIN Foster_Parents on Adoptions.foster_parent_id = Foster_Parents.foster_parent_id JOIN Cats on Adoptions.cat_id = Cats.cat_id ORDER BY id ASC;;" 
+        query = "SELECT Adoptions.adoption_id as id, Adoptions.date AS Date, concat(Customers.last_name,' ', Customers.first_name) As Customer, concat(Employees.first_name, ' ', Employees.last_name) AS Employee, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS Parent, Cats.name AS Cat FROM Adoptions JOIN Customers on Adoptions.customer_id = Customers.customer_id JOIN Employees on Adoptions.employee_id = Employees.employee_id JOIN Foster_Parents on Adoptions.foster_parent_id = Foster_Parents.foster_parent_id JOIN Cats on Adoptions.cat_id = Cats.cat_id ORDER BY id ASC;" 
         cur = mysql.connect.cursor()
         cur.execute(query)
         all_data = cur.fetchall()
@@ -561,7 +591,7 @@ def edit_adoption(adoption_id):
         cur.execute(query)
         data = cur.fetchall()
     
-        query = "SELECT Adoptions.adoption_id as id, Adoptions.date AS Date, concat(Customers.last_name,' ', Customers.first_name) As Customer, concat(Employees.first_name, ' ', Employees.last_name) AS Employee, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS Parent, Cats.name AS Cat FROM Adoptions JOIN Customers on Adoptions.customer_id = Customers.customer_id JOIN Employees on Adoptions.employee_id = Employees.employee_id JOIN Foster_Parents on Adoptions.foster_parent_id = Foster_Parents.foster_parent_id JOIN Cats on Adoptions.cat_id = Cats.cat_id WHERE adoption_id = %s ORDER BY id ASC;"  % (adoption_id)
+        query = "SELECT Adoptions.adoption_id as id, Adoptions.date AS Date, concat(Customers.first_name,' ', Customers.last_name) As Customer, concat(Employees.first_name, ' ', Employees.last_name) AS Employee, concat(Foster_Parents.first_name, ' ', Foster_Parents.last_name) AS Parent, Cats.name AS Cat FROM Adoptions JOIN Customers on Adoptions.customer_id = Customers.customer_id JOIN Employees on Adoptions.employee_id = Employees.employee_id JOIN Foster_Parents on Adoptions.foster_parent_id = Foster_Parents.foster_parent_id JOIN Cats on Adoptions.cat_id = Cats.cat_id WHERE adoption_id = %s ORDER BY id ASC;"  % (adoption_id)
         cur = mysql.connect.cursor()
         cur.execute(query)
         all_data = cur.fetchall()
@@ -618,8 +648,23 @@ def cafe_transactions():
         cur = mysql.connect.cursor()
         cur.execute(query)
         data = cur.fetchall()
+
+        query = "SELECT * FROM Customers" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cus_data = cur.fetchall()
+
+        query = "SELECT * FROM Employees" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        emp_data = cur.fetchall()
+
+        query = "SELECT Cafe_Transactions.transaction_id as id, Cafe_Transactions.order_date as Date,  concat(Customers.first_name, ' ', Customers.last_name) as Customer, concat(Employees.first_name, ' ', Employees.last_name) as Employee, Cafe_Transactions.total_price as Total FROM Cafe_Transactions JOIN Employees ON Cafe_Transactions.employee_id = Employees.employee_id JOIN Customers ON Cafe_Transactions.customer_id = Customers.customer_id ORDER BY transaction_id" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
     
-        return render_template("cafe_transactions.j2", cafe_transactions=data)
+        return render_template("cafe_transactions.j2", cafe_transactions=data, all = all_data, customers = cus_data, employees=emp_data)
     
     if request.method == "POST":
         
@@ -662,7 +707,22 @@ def edit_cafe_transaction(transaction_id):
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
-        return render_template("edit_cafe_transaction.j2", cafe_transactions=data)
+
+        query = "SELECT * FROM Customers" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        cus_data = cur.fetchall()
+
+        query = "SELECT * FROM Employees" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        emp_data = cur.fetchall()
+
+        query = "SELECT Cafe_Transactions.transaction_id as id, Cafe_Transactions.order_date as Date,  concat(Customers.first_name, ' ', Customers.last_name) as Customer, concat(Employees.first_name, ' ', Employees.last_name) as Employee, Cafe_Transactions.total_price as Total FROM Cafe_Transactions JOIN Employees ON Cafe_Transactions.employee_id = Employees.employee_id JOIN Customers ON Cafe_Transactions.customer_id = Customers.customer_id WHERE transaction_id = %s ORDER BY transaction_id" % (transaction_id)
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
+        return render_template("edit_cafe_transaction.j2", cafe_transactions=data, customers = cus_data, employees=emp_data, all=all_data)
     
     if request.method == "POST":
         if request.form.get("Edit_Transaction"):
@@ -678,6 +738,7 @@ def edit_cafe_transaction(transaction_id):
             cur.execute(query, (customer_id, employee_id, order_date, total_price, transaction_id))
             mysql.connection.commit()
 
+
         return redirect("/cafe_transactions")
 
 # PRODUCT ORDERS ENTITY
@@ -691,15 +752,30 @@ def product_orders():
         cur = mysql.connect.cursor()
         cur.execute(query)
         data = cur.fetchall()
+
+        query = "SELECT Product_Orders.product_order_id as id, Product_Orders.transaction_id AS TransactionID, Cafe_Products.name AS Product, Product_Orders.quantity, Cafe_Transactions.order_date as Date FROM Product_Orders JOIN Cafe_Products on Product_Orders.product_id = Cafe_Products.product_id JOIN Cafe_Transactions ON Product_Orders.transaction_id = Cafe_Transactions.transaction_id;" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
+
+        query = "SELECT * FROM Cafe_Transactions" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        trans_data = cur.fetchall()
+
+        query = "SELECT * FROM Cafe_Products" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        prod_data = cur.fetchall()
     
-        return render_template("product_orders.j2", product_orders=data)
+        return render_template("product_orders.j2", product_orders=data, products=prod_data, transactions=trans_data, all=all_data)
     
     if request.method == "POST":
         
         if request.form.get("Add_Product_Order"):
             # Grab form input
-            transaction_id = request.form["transaction-id"]
-            product_id = request.form["product-id"]
+            transaction_id = request.form["transaction_id"]
+            product_id = request.form["product_id"]
             quantity = request.form["quantity"]
             
             # INSERT values
@@ -733,13 +809,31 @@ def edit_product_order(product_order_id):
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
-        return render_template("edit_product_order.j2", product_orders=data)
+
+        query = "SELECT Product_Orders.product_order_id as id, Product_Orders.transaction_id AS TransactionID, Cafe_Products.name AS Product, Product_Orders.quantity, Cafe_Transactions.order_date as Date FROM Product_Orders JOIN Cafe_Products on Product_Orders.product_id = Cafe_Products.product_id JOIN Cafe_Transactions ON Product_Orders.transaction_id = Cafe_Transactions.transaction_id WHERE product_order_id = %s;"  % (product_order_id)
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        all_data = cur.fetchall()
+
+        query = "SELECT * FROM Cafe_Transactions" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        trans_data = cur.fetchall()
+
+        query = "SELECT * FROM Cafe_Products" 
+        cur = mysql.connect.cursor()
+        cur.execute(query)
+        prod_data = cur.fetchall()
+
+        return render_template("edit_product_order.j2", product_orders=data, all=all_data, transactions=trans_data, products=prod_data)
+    
+
     
     if request.method == "POST":
         if request.form.get("Edit_Product_Order"):
             # Grab form input
             transaction_id = request.form["transaction-id"]
-            product_id = request.form["product-id"]
+            product_id = request.form["product_id"]
             quantity = request.form["quantity"]
 
 
@@ -757,7 +851,7 @@ def edit_product_order(product_order_id):
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 30240)) 
+    port = int(os.environ.get('PORT', 30242)) 
     #                                 ^^^^
     #              You can replace this number with any valid port
     

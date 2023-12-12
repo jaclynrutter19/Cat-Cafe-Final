@@ -67,12 +67,15 @@
                     <div class="group-one">
                     <label for="fname">First Name:</label><br>
                     <input type="text" id="fname" name="fname"><br>
+
                     <label for="lname">Last Name:</label><br>
                     <input type="text" id="lname" name="lname">
+
                     <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email">
+                    <input type="text" id="email" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+
                     <label for="phone">Phone:</label><br>
-                    <input type="text" id="phone" name="phone">
+                    <input type="text" id="phone" name="phone" pattern="[0-9]{10}">
                     </div>
                     <div class="group-three">
                         <input class="btn btn-primary" type="submit" value="Submit" name="Add_Customer">

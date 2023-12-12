@@ -70,10 +70,10 @@
                     <input type="text"  value = "{{customers[0].last_name}}" id="lname" name="lname">
 
                     <label for="email">Email:</label><br>
-                    <input type="text" id="email"  value = "{{customers[0].email}}"name="email">
+                    <input type="text" id="email"  value = "{{customers[0].email}}"name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
 
                     <label for="phone">Phone:</label><br>
-                    <input type="text" id="phone"  value = "{{customers[0].phone}}" name="phone">
+                    <input type="text" id="phone"  value = "{{customers[0].phone}}" name="phone" >
                     </div>
 
                     <div class="group-three">
