@@ -32,7 +32,7 @@
                 <tr>
                   <!-- Iterate through each key in the first entry to get the
                     column name -->
-                    {% for key in product_orders[0].keys() %}
+                    {% for key in all[0].keys() %}
 
                     <!-- Create a <th> tag with the key inside of it, this will be
                     our header row -->
@@ -44,9 +44,9 @@
                 <tbody>
         
                 <!-- Now, iterate through every product order in product orders -->
-                {% for product_order in product_orders %}
+                {% for product_order in all %}
                 <tr>
-                    <!-- Then iterate through every key in the current person dictionary -->
+                    <!-- Then iterate through every key in the current order dictionary -->
                     {% for key in product_order.keys() %}
 
                     <!-- Create a <td> element with the value of that key in it -->
@@ -54,25 +54,43 @@
                     {% endfor %}
 
                     <!-- Create our edit/delete buttons -->
-                    <td><a href="edit_product_order/{{product_order.product_order_id}}" class ="edit-del">Edit</a></td>
-                    <td><a href="delete_product_order/{{product_order.product_order_id}}" class ="edit-del">Delete</a></td>
+                    <td><a href="edit_product_order/{{product_order.id}}" class ="edit-del">Edit</a></td>
+                    <td><a href="delete_product_order/{{product_order.id}}" class ="edit-del">Delete</a></td>
                 </tr>
                 {% endfor %}
                 </table>
         
         </div>
         <div class="content-stripe add-stripe">
-            <h2>Add Product</h2>
+            <h2>Add Product Order</h2>
             <div class="form-region">
                 <form id = "insertProductOrder" action = "/product_orders" method = "post">
                     <div class="group-one">
 
-                    <label for="transaction-id">Transaction ID:</label>
-                    <input type="text" class = "form-control" id="transaction-id" name="transaction-id"
-                    placeholder = "" required><br>
-
-                    <label for="product-id">Product ID:</label>
-                    <input type="text" id="product-id" name="product-id">
+                    <label for="transaction_id">Transaction ID:</label>
+                    <select class="form-control" id="transaction_id" name="transaction_id"  placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for transaction in transactions %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if transaction['transaction_id'] == product_orders[0].transaction_id %}
+                                    <option value="{{ transaction['transaction_id'] }}" > {{transaction['transaction_id']}} </option>
+                                {% else %}
+                                    <option value="{{ transaction['transaction_id'] }}"> {{transaction['transaction_id']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
+                    <label for="product_id">Product:</label>
+                    <select class="form-control" id="product_id" name="product_id"  placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for product in products %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if product['product_id'] == product_orders[0].product_id %}
+                                    <option value="{{ product['product_id'] }}" > {{product['name']}} </option>
+                                {% else %}
+                                    <option value="{{ product['product_id'] }}"> {{product['name']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
 
                     <label for="quantity">Quantity:</label>
                     <input type="int" id="quantity" name="quantity" pattern="^[0-9]*$">

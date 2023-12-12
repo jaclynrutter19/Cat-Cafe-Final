@@ -66,9 +66,9 @@
                     <select class="form-control" id="customer_id" name="customer_id" pattern="[0-4]{1}" placeholder="" required> 
                      <option value="0">&nbsp;</option>
                         {% for customer in customers %}
-                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                <!-- If the value iterated customer matches the value of the customer currently Editing, pre-select that option -->
                                 {% if customer['customer_id'] == adoptions[0].customer %}
-                                    <option value="{{ customer['customer_id'] }}" selected> {{customer['first_name']}} {{customer['last_name']}}</option>
+                                    <option value="{{ customer['customer_id'] }}" selected="selected"> {{customer['first_name']}} {{customer['last_name']}}</option>
                                 {% else %}
                                     <option value="{{ customer['customer_id'] }}"> {{customer['first_name']}} {{customer['last_name']}}</option> 
                                 {% endif %}

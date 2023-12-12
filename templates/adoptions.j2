@@ -19,7 +19,7 @@
             <a href="adoptions">Adoptions</a>
             <a href="cafe_transactions">Cafe Transactions</a>
             <a href="product_orders">Product Orders</a>
-            <a href="foster-cat_relationships">Foster/Cat Relationships</a>
+            <a href="foster_cat_relationships">Foster/Cat Relationships</a>
         </nav>
     </header>
     <main>
@@ -43,7 +43,6 @@
                 </tr>
                 </thead>
 
-                <tbody>
                 <!-- Now, iterate through every adoption in adoptions -->
                 {% for adoption in all %}
                 <tr>
@@ -60,6 +59,7 @@
                 </tr>
                 {% endfor %}
             </table>
+
         </div>
         <div class="content-stripe add-stripe">
             <h2>Add Adoption</h2>
@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="group-three">
-                        <input class="btn" type="submit" value="Save" name = "Add_Adoption">
+                        <input class="btn" type="submit" value="Submit" name = "Add_Adoption">
                         </div>
                 </form>
             </div>

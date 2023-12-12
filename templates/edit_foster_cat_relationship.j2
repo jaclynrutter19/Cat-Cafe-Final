@@ -32,7 +32,7 @@
                 <tr>
                   <!-- Iterate through each key in the first entry to get the
                     column name -->
-                    {% for key in foster_cat_relationships[0].keys() %}
+                    {% for key in all[0].keys() %}
 
                     <!-- Create a <th> tag with the key inside of it, this will be
                     our header row -->
@@ -43,7 +43,7 @@
                 </tr>
                 
                 <!-- Now, iterate through every relationship in foster_parent_relationships -->
-                {% for foster_parent_relationship in foster_cat_relationships %}
+                {% for foster_parent_relationship in all %}
                 <tr>
                     <!-- Then iterate through every key in the current person dictionary -->
                     {% for key in foster_parent_relationship.keys() %}
@@ -58,16 +58,36 @@
             </div>
         <div class="content-stripe add-stripe">
             <div class="form-region">
-                <form id = "editFosterCatRelationship" action = "/edit_foster_cat_relationship/{{foster_cat_relationships[0].relationship_id}}" method = "post">
+                <form id = "editFosterCatRelationship" action = "/edit_foster_cat_relationship/{{relationships[0].relationship_id}}" method = "post">
                     <div class="group-one">
 
-                    <label for="cat-id">Cat ID:</label><br>
-                    <input type="int" class = "form-control" id="cat-id" name="cat-id"
-                    placeholder = "" value = "{{foster_cat_relationships[0].cat_id}}" required><br>
+                    <label for="cat_id">Cat:</label>
+                    <select class="form-control" id="cat_id" name="cat_id"  placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for cat in cats %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if cat['cat_id'] == relationships[0].cat_id %}
+                                    <option value="{{ cat['cat_id'] }}" selected> {{cat['name']}} </option>
+                                {% else %}
+                                    <option value="{{ cat['cat_id'] }}"> {{cat['name']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
 
-                    <label for="f-parent-id">Foster Parent ID:</label><br>
-                    <input type="int"  value = "{{foster_cat_relationships[0].foster_parent_id}}" id="f-parent-id" name="f-parent-id">
-            </div>
+                    <label for="foster_parent_id">Parent:</label>
+                    <select class="form-control" id="foster_parent_id" name="foster_parent_id"  placeholder="" required> 
+                     <option value="0">&nbsp;</option>
+                        {% for parent in parents %}
+                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
+                                {% if parent['foster_parent_id'] == relationships[0].foster_parent_id %}
+                                    <option value="{{ parent['foster_parent_id'] }}" selected> {{parent['first_name']}} {{parent['last_name']}}</option>
+                                {% else %}
+                                    <option value="{{ parent['foster_parent_id'] }}"> {{parent['first_name']}} {{parent['last_name']}}</option> 
+                                {% endif %}
+                        {% endfor %}
+                        </select>
+            
+                    </div>
                     <div class="group-two">
                         <input class="btn btn-primary" type="submit" value="Save" name="Edit_Foster_Cat_Relationship">
                         <input class="btn" type="button" value="Cancel">
