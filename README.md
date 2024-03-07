@@ -1,4 +1,6 @@
-Citations:
+
+
+## Citations:
 
 Templates adapted from: https://github.com/osu-cs340-ecampus/flask-starter-app/tree/master/bsg_people_app/templates
 
